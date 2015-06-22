@@ -1,0 +1,145 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+body, html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.navbar .navbar-static-top {
+  margin: 0 0 0 0;
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+}
+
+#incomingTweet {
+  @include clearfix();
+}
+
+//EDIT THISSSS
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.lgreen {
+  background-color: green;
+}
+
+.green {
+  background-color: green;
+}
+
+//tab changes
+.tabsdemoDynamicHeight md-content {
+  background-color: transparent !important;
+}
+
+.tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1;
+
+}
+
+.tabsdemoDynamicHeight md-content md-tabs md-tabs-canvas {
+      background: white;
+}
+
+.tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0;
+}
+
+// divider
+.dividerdemoBasicUsage .face {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 48px;
+  margin: 16px; }
+
+//button
+.buttondemoBasicUsage section {
+  background: #f7f7f7;
+  border-radius: 3px;
+  text-align: center;
+  margin: 1em;
+  position: relative !important;
+  padding-bottom: 10px; }
+.buttondemoBasicUsage md-content {
+  margin-right: 7px; }
+.buttondemoBasicUsage section .md-button {
+  margin-top: 16px;
+  margin-bottom: 16px; }
+.buttondemoBasicUsage .label {
+  position: absolute;
+  bottom: 5px;
+  left: 7px;
+  font-size: 14px;
+  opacity: 0.54; }
+
+//input!!!!!!!!!!!!!!!!!!!!!
+md-input-container .md-input {
+  line-height: 47px;
+}
+
+
+// little things
+md-input-container.md-icon-float>input {
+  @include clearfix();
+  padding-top: 1px !important;
+}
+
+.row {
+  margin-top: 10px;
+  margin-right: -18px;
+  margin-left: 8px;
+  margin-top: 10px;
+}
+
+#score {
+  margin-top: 5px;
+}
+
+span#user-name {
+  font-weight: bold;
+}
+
+span#screen-name {
+  color: #B1BBC3;
+  font-style: italic;
+
+}
+
+.sentiment-label {
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  border: none;
+}
+
+
+#inbox-label {
+  font-weight: bold;
+  color: #66757F;
+}
+
+
+@import 'directives/main';
+@import 'home/main';
+@import 'about/main';
+@import 'tutorial/main';
+@import 'login/main';

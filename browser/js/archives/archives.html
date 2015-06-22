@@ -1,0 +1,26 @@
+<!-- <section id="about"> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-4">Tweets Archives</div>
+      <div class="col-md-1">Sentiment</div>
+      <div class="col-md-1">PastTweets</div>
+      <div class="col-md-2">Since</div>
+      <div class="col-md-1">LastHandledBy</div>
+    </div>
+
+    <div class="row" ng-repeat="mention in mentions">
+      <div class="col-md-1"><img class="img-circle" src="{{mention.user.profile_image_url}}"></div>
+      <div class="col-md-4">
+        <span>{{ mention.user.name }}</span>
+        <span>@{{ mention.user.screen_name }}</span>
+        <p>{{ mention.text }}</p>
+      </div>
+      <div class="col-md-1">{{ mention.sentiment.type }}</div>
+      <div class="col-md-1">2</div>
+      <div class="col-md-2">{{ mention.created_at }}</div>
+      <div class="col-md-1">Eunice</div>
+    </div>
+
+  </div>
+<!-- </section> -->

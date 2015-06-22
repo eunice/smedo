@@ -1,0 +1,51 @@
+navbar {
+
+  display: block;
+  background: #FFFFFF;
+
+  fullstack-logo {
+    padding-top: 10px;
+    margin-right: 20px;
+    // height: 50px;
+    width: 90px;
+  }
+
+  a {
+    color: #2FC2EF;
+    &:hover {
+      color: #2FC2EF;
+    }
+  }
+
+  .nav > li > a {
+    cursor: pointer;
+    &.active {
+      color: #f30046;
+    }
+    &:hover {
+      transition: color 0.2s;
+    }
+    &:focus {
+      color: #f30046;
+      background: transparent;
+    }
+  }
+
+  .login-button {
+    float: right;
+    margin-top: 8px;
+  }
+
+  .welcome {
+    float: right;
+    margin-top: 12px;
+    span {
+      color: white;
+    }
+    a {
+      color: #f30046;
+      cursor: pointer;
+    }
+  }
+
+}
