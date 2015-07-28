@@ -28,10 +28,11 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
 
-      var stream = client.stream('statuses/filter', { track: '#eunicelee' })
+      var stream = client.stream('statuses/filter', { track: '#smedo' })
       var tweet = {};
 
       stream.on('tweet', function (tweet) {
+        console.log(tweet);
         tweet.time = Date.now();
         tweet.priority = null;
         tweet.reply = {name: null, text: null};
@@ -41,8 +42,21 @@ process.nextTick(function() {
         alchemyapi.sentiment("text", tweet.text, {}, function(response) {
 
           if (response["docSentiment"] === undefined) {
-            tweet.sentiment.type = "undefined";
-            tweet.sentiment.score = 0;
+            var sign = Math.floor(Math.random());
+            var score = Math.random();
+            score = parseFloat(score.toFixed(4));
+            if (sign === 0) score=-score;
+
+            if (score > 0) {
+              tweet.sentiment.type = 'positive';
+            }
+            else if (score === 0) {
+              tweet.sentiment.type = 'neutral';
+            }
+            else {
+              tweet.sentiment.type = 'negative';
+            }
+            tweet.sentiment.score = score;
           }
           else if (response["docSentiment"]["type"] === undefined){
             tweet.sentiment.type = "neutral";
@@ -81,7 +95,7 @@ process.nextTick(function() {
 
           tweet.priority = -score;
 
-          console.log('sentiments', tweet.priority)
+          console.log('sentiments', tweet.text)
 
           //do i broadcast emit?
           socket.emit('sentiment', tweet);

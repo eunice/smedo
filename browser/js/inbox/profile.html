@@ -1,0 +1,27 @@
+<div id="profile" class="modal-body">
+
+
+  <h3>
+    <img class="img-circle" src="{{ mention.user.profile_image_url }}" height="70" width="70">
+      {{ mention.user.name }}
+    <span>@{{ mention.user.screen_name }}</span>
+  </h3>
+
+  <p id="desription">{{ mention.user.description }}</p>
+  <p><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span><b>Joined Twitter:</b> {{ mention.user.created_at }}</p>
+
+  <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"><b> Location:</b> {{ mention.user.location }}</p>
+  <p><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"><b> Favorites:</b> {{ mention.user.favourites_count }}</p>
+  <p><span class="glyphicon glyphicon-user" aria-hidden="true"><b> Followers:</b> {{ mention.user.followers_count }}</p>
+  <p><span class="glyphicon glyphicon-heart" aria-hidden="true"><b> Friends:</b> {{ mention.user.friends_count }}</p>
+
+
+
+  <p><b>Statuses:</b> {{ mention.user.statuses_count }}</p>
+
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="close()">Close</button>
+  </div>
+
+</div>

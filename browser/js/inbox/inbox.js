@@ -6,7 +6,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject) {
+app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
     //inbox firebase
     var ref = new Firebase('https://smedo-fs.firebaseio.com/');
     var tweetRt = $firebaseArray(ref);
@@ -20,6 +20,14 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     var tweetArch = $firebaseArray(arch);
 
     $scope.arr = [];
+    // $scope.progress = [];
+    // $scope.progress-circular = false;
+
+    console.log('realtimee',tweetRt)
+    tweetRt.$loaded(function(tweets){
+      console.log('tweets',tweets)
+      console.log('tweets',tweets.length)
+    })
 
     // realtimeTweets.$bindTo($scope, "realtime"); //ng-model "data.text", {{data.text}}
 
@@ -30,6 +38,7 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       // console.log('sentiment',data)
       tweetRt.$add(data).then(function(ref) {
         $scope.arr.push(false); // setting the showForm var for all tweets to false
+        // $scope.progress.push([]);
       })
 
 
@@ -39,19 +48,37 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
 
     })
 
+    $scope.realtime.forEach(function(mention){
+      console.log('loading',mention)
+      $scope.checkToLoad(mention);
+    })
 
-    $scope.reply = function (index) {
+
+    $scope.reply = function (index, mention) {
       $scope.arr[index] = true; //set showForm to true
+
+      $scope.checkToLoad(mention);
+
+      // Socket.broadcast.emit('progress')
+      // $scope.progress[index].push(true);
 
       // var el = document.querySelector('#incomingTweet');
       // angular.element(el).css({"background-color": "blue"});
+
     }
 
-    $scope.close = function(index) {
+    $scope.close = function(index, mention) {
       $scope.arr[index] = false; //set showForm to false
+      $scope.checkToLoad(mention);
 
       // var el = document.querySelector('#incomingTweet');
       // angular.element(el).css({"background-color": "white"});
+    }
+
+    $scope.checkToLoad = function(mention) {
+      mention.loading = false;
+      if(mention.reply.text.length) mention.loading = true;
+
     }
 
     $scope.post = function(mention, index) {
@@ -59,35 +86,39 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       TweetFactory.post("@"+mention.user.screen_name + " " + mention.reply.text);
       $scope.arr[index] = false; //set showForm to false
 
+      tweetArch.$add(mention).then(function(ref) {})
+      console.log('tweetrt before',tweetRt.$keyAt(mention.$id))
 
-      tweetArch.$add(tweetRt[index]).then(function(ref) {})   //put to archive
+      tweetRt.forEach(function(tweet, index){
+        // console.log('tweetRt tweet',tweet)
+        if (tweet.$id === mention.$id) {
+          tweetRt.$remove(tweet);
+        }
 
-      tweetRt.$remove(tweetRt[index]).then(function(ref){}); //remove tweet from firebase
+      })
 
     }
 
-    //color generator
-
-
-    // //Priority score generator------------------------------------------
-    // function priorityScore (time, sentiScore, followers) {
-    //
-    //   var w = {
-    //     timePast: 0.00000000000555,
-    //     tweetSentiment: 3,
-    //     followers: 2
-    //   }
-    //
-    //   if(sentiScore < 0) sentiScore = -sentiScore;
-    //
-    //   var score =
-    //   + w.tweetSentiment * sentiScore
-    //   + w.followers * followers
-    //   - w.timePast * time;
-    //
-    //   return -score;
-    // }
-    // //--------------------------------------------------------------
-
+    $scope.viewProfile = function(mention) {
+        var modalInstance = $modal.open({
+          templateUrl: 'js/inbox/profile.html',
+          controller: 'viewProfileModalCtrl',
+          resolve: {
+            mention: function() {
+              return mention;
+            }
+          }
+        });
+    }
 
 });
+
+app.controller('viewProfileModalCtrl', function ($scope, $modalInstance, mention, $state) {
+
+  $scope.mention = mention;
+
+  $scope.close = function () {
+    $modalInstance.close();
+  }
+
+})

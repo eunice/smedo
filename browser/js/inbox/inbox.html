@@ -18,7 +18,7 @@
   </div> -->
 
   <div class="row" ng-repeat="mention in realtime">
-    <div ng-click="reply($index)" id="incomingTweet">
+    <div ng-click="reply($index, mention)" id="incomingTweet">
     <div class="col-md-1"><img class="img-circle" src="{{mention.user.profile_image_url}}"></div>
     <div class="col-md-4">
       <span id="user-name">{{ mention.user.name }}</span>
@@ -29,7 +29,7 @@
       <!-- ng-class -->
       <button class="sentiment-label"
               ng-class="{'red': mention.sentiment.score < -0.5 ,
-                         'orange': mention.sentiment.score < -0.25 && mention.sentiment.score >= -0.5,
+                         'orange': mention.sentiment.score < 0 && mention.sentiment.score >= -0.5,
                          'yellow': mention.sentiment.score === 0,
                          'lgreen': mention.sentiment.score < 0.5 && mention.sentiment.score > 0,
                          'green': mention.sentiment.score < 1 &&  mention.sentiment.score >= 0.5}">
@@ -38,7 +38,7 @@
     <div class="col-md-1" id="score">{{ mention.sentiment.score }}</div>
     <div class="col-md-1" id="score">{{ mention.user.followers_count }}</div>
     <div class="col-md-2" id="score">{{ mention.created_at }}</div>
-    <div class="col-md-1">....</div>
+    <div class="col-md-1" ng-show="mention.loading"><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>
     </div>
 
 
@@ -52,14 +52,20 @@
       <!-- Use floating placeholder instead of label -->
       <!-- <input ng-model="mention.reply.name" ng-change="realtime.$save(mention)" placeholder="Name"> -->
 
-      <input ng-model="mention.reply.text" ng-change="realtime.$save(mention)" placeholder="Tweet Back" padding-top="1px">
+      <input ng-model="mention.reply.text" ng-change="realtime.$save(mention); checkToLoad(mention)" placeholder="Tweet Back" padding-top="1px">
       </md-input-container>
+      <md-button md-no-ink class="md-primary" ng-click="viewProfile(mention)">View Profile</md-button>
+      <!-- <md-button class="md-raised" ng-click="viewProfile(mention)">View Profile</md-button> -->
+      <md-button class="md-raised md-primary" ng-click="post(mention, $index)" >Tweet</md-button>
+      <md-button class="md-raised md-warn" ng-click="close($index, mention)">Close</md-button>
 
-      <md-button class="md-fab md-primary" aria-label="Use Android">
+
+      <!-- Button -->
+      <!-- <md-button class="md-fab md-primary" aria-label="Use Android">
           <md-icon md-svg-src="http://www.aedweb.org/web/images/twitter-big.png"></md-icon>
-        </md-button>
-      <button type="submit" ng-click="post(mention, $index)" class="btn btn-default">Tweet</button>
-      <button type="submit" ng-click="close($index)" class="btn btn-default">Close</button>
+        </md-button> -->
+            <!-- <button type="submit" ng-click="post(mention, $index)" class="btn btn-default">Tweet</button> -->
+      <!-- <button type="submit" ng-click="close($index, mention)" class="btn btn-default">Close</button> -->
 
 
       <!-- <form>
