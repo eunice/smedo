@@ -28,11 +28,11 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
 
-      var stream = client.stream('statuses/filter', { track: '#smedo' })
+      var stream = client.stream('statuses/filter', { track: '#lalalallalalalalalalalalalalalala' })
       var tweet = {};
 
       stream.on('tweet', function (tweet) {
-        console.log(tweet);
+        console.log(tweet.text);
         tweet.time = Date.now();
         tweet.priority = null;
         tweet.reply = {name: null, text: null};
@@ -75,27 +75,27 @@ process.nextTick(function() {
 
           //calculating data priority
           var w = {
-            timePast: 0.00000000000555,
-            tweetSentiment: 3,
-            followers: 2
+            timePast: 0.00000000000555
+            // tweetSentiment: 3,
+            // followers: 2
           }
 
-          var sentiScore = null;
+          // var sentiScore = null;
+          //
+          // if(tweet.sentiment.score < 0) {
+          //   sentiScore = -tweet.sentiment.score;
+          // } else {
+          //   sentiScore = tweet.sentiment.score;
+          // }
 
-          if(tweet.sentiment.score < 0) {
-            sentiScore = -tweet.sentiment.score;
-          } else {
-            sentiScore = tweet.sentiment.score;
-          }
+          // var score =
+          // + w.tweetSentiment * sentiScore
+          // + w.followers * tweet.user.followers_count
+          // - w.timePast * tweet.time;
 
-          var score =
-          + w.tweetSentiment * sentiScore
-          + w.followers * tweet.user.followers_count
-          - w.timePast * tweet.time;
+          tweet.priority = -tweet.time;
 
-          tweet.priority = -score;
-
-          console.log('sentiments', tweet.text)
+          // console.log('sentiments', tweet.text)
 
           //do i broadcast emit?
           socket.emit('sentiment', tweet);
