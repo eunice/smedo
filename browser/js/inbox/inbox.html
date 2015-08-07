@@ -18,8 +18,8 @@
       <span id="screen-name">@{{ mention.user.screen_name }}</span>
       <p>{{ mention.text }}</p>
     </div>
+
     <div class="col-md-1">
-      <!-- ng-class -->
       <button class="sentiment-label"
               ng-class="{'red': mention.sentiment.score < -0.5 ,
                          'orange': mention.sentiment.score < 0 && mention.sentiment.score >= -0.5,
@@ -28,6 +28,7 @@
                          'green': mention.sentiment.score < 1 &&  mention.sentiment.score >= 0.5}">
               {{ mention.sentiment.type }}</button>
     </div>
+
     <div class="col-md-1" id="score">{{ mention.sentiment.score }}</div>
     <div class="col-md-1" id="score">{{ mention.user.followers_count }}</div>
     <div class="col-md-2" id="score">{{ mention.created_at }}</div>
@@ -40,10 +41,8 @@
       <!-- Use floating placeholder instead of label -->
 
       <!-- </md-input-container> -->
-      <img id="twitter-logo" src="http://www.aedweb.org/web/images/twitter-big.png" height="40px" width="40px">
+      <img id="twitter-logo" src="data:image/png;base64,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" height="30px" width="35px">
       <md-input-container >
-      <!-- Use floating placeholder instead of label -->
-      <!-- <input ng-model="mention.reply.name" ng-change="realtime.$save(mention)" placeholder="Name"> -->
 
       <input ng-model="mention.reply.text" ng-change="realtime.$save(mention); checkToLoad(mention)" placeholder="Tweet Back" padding-top="1px">
       </md-input-container>
@@ -52,19 +51,6 @@
       <md-button class="md-raised md-primary" ng-click="post(mention, $index)" >Tweet</md-button>
       <md-button class="md-raised md-warn" ng-click="close($index, mention)">Close</md-button>
 
-
-      <!-- Button -->
-      <!-- <md-button class="md-fab md-primary" aria-label="Use Android">
-          <md-icon md-svg-src="http://www.aedweb.org/web/images/twitter-big.png"></md-icon>
-        </md-button> -->
-            <!-- <button type="submit" ng-click="post(mention, $index)" class="btn btn-default">Tweet</button> -->
-      <!-- <button type="submit" ng-click="close($index, mention)" class="btn btn-default">Close</button> -->
-
-
-      <!-- <form>
-        <input type="text" ng-model="mention.reply.name" ng-change="realtime.$save(mention)" id="write" placeholder="Your name">
-        <input type="text" ng-model="mention.reply.text" ng-change="realtime.$save(mention)" id="write" placeholder="Be nice and polite...">
-      </form> -->
     </div>
 
     <md-divider md-inset ng-if="!$last"></md-divider>
