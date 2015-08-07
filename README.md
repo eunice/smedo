@@ -2,9 +2,10 @@
 > This is a tool for marketers to collaborate and manage Twitter conversations better in the organization. 
 
 ###Screenshot
-![alt text][img]
-[img]: http://i59.tinypic.com/hvw7ed.png
-[img]: http://i57.tinypic.com/qobsc5.png
+![alt text][reach]
+[reach]: http://i59.tinypic.com/hvw7ed.png
+![alt text][sentiment]
+[sentiment]: http://i57.tinypic.com/qobsc5.png
 
 
 ###How to use Smedo? 
