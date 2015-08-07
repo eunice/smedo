@@ -28,7 +28,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
 
-      var stream = client.stream('statuses/filter', { track: '#lalalallalalalalalalalalalalalala' })
+      var stream = client.stream('statuses/filter', { track: '#lalalalallalallala' })
       var tweet = {};
 
       stream.on('tweet', function (tweet) {

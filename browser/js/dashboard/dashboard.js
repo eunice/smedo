@@ -44,7 +44,7 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
   })
 
 //all the logic for TEST ANALYTICS (COMMENTED)
-  // test.$loaded().then(function(tweets){
+  // donaldTrump.$loaded().then(function(tweets){
   //
   //     tweets.forEach(function(data){
   //       var date = data.created_at;
@@ -336,6 +336,8 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
           $scope.sentimentDonutSeries.push(obj.sentimentDonut[k]);
         }
 
+        // $scope.positive = Math.round
+
         var dataD = {
           // labels: sentimentDonutLabel,
           series: $scope.sentimentDonutSeries
@@ -502,7 +504,7 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
           d3.layout.cloud().size([850, 350])
                   .words(frequency_list)
                   .rotate(0)
-                  .fontSize(function(d) { if (d.size < 10) { return d.size * 5; } else { return d.size; }; })
+                  .fontSize(function(d) { return d.size * 0.3; })
                   .on("end", draw)
                   .start();
 

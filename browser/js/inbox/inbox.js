@@ -63,11 +63,11 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     Socket.on('sentiment', function(data) {
 
       //start removing when hits 50;
-      donaldTrump.$loaded().then(function(tweets){
-        if (tweets.length >= 50) {
-          donaldTrump.$remove(tweets[0]);
-        }
-      })
+      // donaldTrump.$loaded().then(function(tweets){
+      //   if (tweets.length >= 50) {
+      //     donaldTrump.$remove(tweets[0]);
+      //   }
+      // })
 
       //add tweet only if it's not duplicated
       if (prevTweetId !== data.id) {
@@ -85,102 +85,102 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       prevTweetId = data.id;
 
       //DATA analytics!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-      var date = data.created_at;
-      var day = date.split(" ")[0];
-      var hour = parseInt(date.split(" ")[3].split(":")[0]);
-      var s = parseFloat(data.sentiment.score);
-
-      var key;
-      if (hour >= 6 && hour < 9) key = day+'M1';
-      else if (hour >= 9 && hour < 12) key = day+'M2';
-      else if (hour >= 12 && hour < 15) key = day+'A1';
-      else if (hour >= 15 && hour < 18) key = day+'A2';
-      else if (hour >= 18 && hour < 21) key = day+'N1';
-      else if (hour >= 21 && hour <= 23) key = day+'N2';
-      else if (hour >= 0 && hour < 3) key = day+'L1';
-      else if (hour >= 3 && hour < 6) key = day+'L2';
-
-
-
-          // console.log('objects',obj.timeInterval);
-          //create key = day+hour -> update value
-          obj.timeInterval[key] = obj.timeInterval[key] || {};
-          //incomingTweets
-          obj.timeInterval[key].incomingTweets = obj.timeInterval[key].incomingTweets || 0;
-          obj.timeInterval[key].incomingTweets++;
-          //ave Tweet frequency per interval -> tooltip
-          obj.timeInterval[key].frequency = obj.timeInterval[key].incomingTweets / 3;
-          // impression
-          obj.timeInterval[key].impressions = obj.timeInterval[key].impressions || 0;
-          obj.timeInterval[key].impressions += data.user.followers_count;
-          // sentimentScores
-          obj.timeInterval[key].sentimentScores = obj.timeInterval[key].sentimentScores || [];
-          obj.timeInterval[key].sentimentScores.push(s);
-          // aveSentiment
-          obj.timeInterval[key].totalSentiment = obj.timeInterval[key].totalSentiment || s;
-          obj.timeInterval[key].totalSentiment += s;
-          obj.timeInterval[key].aveSentiment =  obj.timeInterval[key].totalSentiment / obj.timeInterval[key].incomingTweets;
-          // console.log('ssss', obj.timeInterval[key].aveSentiment, s)
-
-          //totalTweets
-          obj.totalTweets++;
-          // totalImpressions
-          obj.totalImpressions += data.user.followers_count;
-
-          // aveSentiments
-          obj.totalSentiments += s;
-          obj.aveSentiments = obj.totalSentiments / obj.totalTweets;
-
-          // sentimentDonut
-          // {green: 0, blue: 0, yellow: 0, purple: 0, red: 0}
-          if (s > 0.5 && s <= 1) obj.sentimentDonut.green++
-          else if (s > 0 && s <= 0.5) obj.sentimentDonut.blue++
-          else if (s === 0) obj.sentimentDonut.yellow++
-          else if (s > -0.5 && s < 0) obj.sentimentDonut.purple++
-          else if (s <= -0.5) obj.sentimentDonut.red++
-
-          // uniqueUsers + non-unique users
-          if (!obj.users[data.user.id_str]) obj.uniqueUsers++;
-          obj.users[data.user.id_str] = obj.users[data.user.id_str] || {};
-          obj.users[data.user.id_str].tweets = obj.users[data.user.id_str].tweets || 1;
-          obj.users[data.user.id_str].tweets++;
-          obj.users[data.user.id_str].totalSentiments = obj.users[data.user.id_str].totalSentiments || s;
-          obj.users[data.user.id_str].totalSentiments += s;
-          obj.users[data.user.id_str].aveSentiments = obj.users[data.user.id_str].totalSentiments / obj.users[data.user.id_str].tweets;
-          obj.users[data.user.id_str].username = data.user.screen_name;
-          obj.users[data.user.id_str].followers = data.user.followers_count;
-
-
-          // hashTags
-          data.text.split(" ").forEach(function(word){
-            word = word.toLowerCase();
-            if (word.indexOf("trump") === -1) {
-                var initial = word.split("").shift();
-                if (initial === "#") {
-                  var re = /([A-Za-z0-9])+/g
-                  word = word.match(re)[0];
-                  // console.log('trump hashtags',word, obj)
-                  obj.hashtags = obj.hashtags || {};
-                  obj.hashtags[word] = obj.hashtags[word] || 1;
-                  obj.hashtags[word]++;
-
-
-                }
-            }
-          })
-
-          obj.$save();
-
-          //overallTweetFrequency
-          obj.$loaded().then(function(d){
-              for (var key in d.timeInterval) {
-                obj.overallTweetFrequency = obj.timeInterval[key].frequency / Object.keys(obj.timeInterval).length;
-                obj.$save();
-              }
-          });
-
-      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //
+      // var date = data.created_at;
+      // var day = date.split(" ")[0];
+      // var hour = parseInt(date.split(" ")[3].split(":")[0]);
+      // var s = parseFloat(data.sentiment.score);
+      //
+      // var key;
+      // if (hour >= 6 && hour < 9) key = day+'M1';
+      // else if (hour >= 9 && hour < 12) key = day+'M2';
+      // else if (hour >= 12 && hour < 15) key = day+'A1';
+      // else if (hour >= 15 && hour < 18) key = day+'A2';
+      // else if (hour >= 18 && hour < 21) key = day+'N1';
+      // else if (hour >= 21 && hour <= 23) key = day+'N2';
+      // else if (hour >= 0 && hour < 3) key = day+'L1';
+      // else if (hour >= 3 && hour < 6) key = day+'L2';
+      //
+      //
+      //
+      //     // console.log('objects',obj.timeInterval);
+      //     //create key = day+hour -> update value
+      //     obj.timeInterval[key] = obj.timeInterval[key] || {};
+      //     //incomingTweets
+      //     obj.timeInterval[key].incomingTweets = obj.timeInterval[key].incomingTweets || 0;
+      //     obj.timeInterval[key].incomingTweets++;
+      //     //ave Tweet frequency per interval -> tooltip
+      //     obj.timeInterval[key].frequency = obj.timeInterval[key].incomingTweets / 3;
+      //     // impression
+      //     obj.timeInterval[key].impressions = obj.timeInterval[key].impressions || 0;
+      //     obj.timeInterval[key].impressions += data.user.followers_count;
+      //     // sentimentScores
+      //     obj.timeInterval[key].sentimentScores = obj.timeInterval[key].sentimentScores || [];
+      //     obj.timeInterval[key].sentimentScores.push(s);
+      //     // aveSentiment
+      //     obj.timeInterval[key].totalSentiment = obj.timeInterval[key].totalSentiment || s;
+      //     obj.timeInterval[key].totalSentiment += s;
+      //     obj.timeInterval[key].aveSentiment =  obj.timeInterval[key].totalSentiment / obj.timeInterval[key].incomingTweets;
+      //     // console.log('ssss', obj.timeInterval[key].aveSentiment, s)
+      //
+      //     //totalTweets
+      //     obj.totalTweets++;
+      //     // totalImpressions
+      //     obj.totalImpressions += data.user.followers_count;
+      //
+      //     // aveSentiments
+      //     obj.totalSentiments += s;
+      //     obj.aveSentiments = obj.totalSentiments / obj.totalTweets;
+      //
+      //     // sentimentDonut
+      //     // {green: 0, blue: 0, yellow: 0, purple: 0, red: 0}
+      //     if (s > 0.5 && s <= 1) obj.sentimentDonut.green++
+      //     else if (s > 0 && s <= 0.5) obj.sentimentDonut.blue++
+      //     else if (s === 0) obj.sentimentDonut.yellow++
+      //     else if (s > -0.5 && s < 0) obj.sentimentDonut.purple++
+      //     else if (s <= -0.5) obj.sentimentDonut.red++
+      //
+      //     // uniqueUsers + non-unique users
+      //     if (!obj.users[data.user.id_str]) obj.uniqueUsers++;
+      //     obj.users[data.user.id_str] = obj.users[data.user.id_str] || {};
+      //     obj.users[data.user.id_str].tweets = obj.users[data.user.id_str].tweets || 1;
+      //     obj.users[data.user.id_str].tweets++;
+      //     obj.users[data.user.id_str].totalSentiments = obj.users[data.user.id_str].totalSentiments || s;
+      //     obj.users[data.user.id_str].totalSentiments += s;
+      //     obj.users[data.user.id_str].aveSentiments = obj.users[data.user.id_str].totalSentiments / obj.users[data.user.id_str].tweets;
+      //     obj.users[data.user.id_str].username = data.user.screen_name;
+      //     obj.users[data.user.id_str].followers = data.user.followers_count;
+      //
+      //
+      //     // hashTags
+      //     data.text.split(" ").forEach(function(word){
+      //       word = word.toLowerCase();
+      //       if (word.indexOf("trump") === -1) {
+      //           var initial = word.split("").shift();
+      //           if (initial === "#") {
+      //             var re = /([A-Za-z0-9])+/g
+      //             word = word.match(re)[0];
+      //             // console.log('trump hashtags',word, obj)
+      //             obj.hashtags = obj.hashtags || {};
+      //             obj.hashtags[word] = obj.hashtags[word] || 1;
+      //             obj.hashtags[word]++;
+      //
+      //
+      //           }
+      //       }
+      //     })
+      //
+      //     obj.$save();
+      //
+      //     //overallTweetFrequency
+      //     obj.$loaded().then(function(d){
+      //         for (var key in d.timeInterval) {
+      //           obj.overallTweetFrequency = obj.timeInterval[key].frequency / Object.keys(obj.timeInterval).length;
+      //           obj.$save();
+      //         }
+      //     });
+      //
+      // //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     })
 

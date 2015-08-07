@@ -9,10 +9,18 @@
 
 
 #sentiment-donut {
-  // float:left;
+  float:left;
 }
 
 #donut-label {
   padding-left: 20px;
   display: inline;
+}
+
+#word-cloud {
+  text-align: center;
+}
+
+#table-chart {
+  padding-top: 20px;
 }
