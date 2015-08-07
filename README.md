@@ -4,7 +4,6 @@
 ###Screenshot
 ![alt text][img]
 [img]: http://i59.tinypic.com/hvw7ed.png
-![alt text][img]
 [img]: http://i57.tinypic.com/qobsc5.png
 
 
