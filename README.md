@@ -1,11 +1,18 @@
 ##Smedo
 > This is a tool for marketers to collaborate and manage Twitter conversations better in the organization. 
 
+###Demo Video URL
+https://www.youtube.com/watch?v=hgYV-quI5X8&feature=youtu.be
+
 ###Screenshot
 ![alt text][reach]
 [reach]: http://i59.tinypic.com/hvw7ed.png
 ![alt text][sentiment]
 [sentiment]: http://i57.tinypic.com/qobsc5.png
+![alt text][user]
+[user]: http://i58.tinypic.com/2eg46eb.png
+![alt text][hashtag]
+[hashtag]: http://i62.tinypic.com/w0t2br.png
 
 
 ###How to use Smedo? 
