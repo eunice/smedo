@@ -1,0 +1,9 @@
+{
+  "firebase": "smedo-fs",
+  "public": "",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
