@@ -3,7 +3,7 @@
 
 ###Screenshot
 ![alt text][img]
-[img]: http://i58.tinypic.com/1zytved.png
+[img]: http://i59.tinypic.com/hvw7ed.png
 
 
 ###How to use Smedo? 
