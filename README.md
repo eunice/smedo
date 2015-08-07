@@ -1,6 +1,10 @@
-###Smedo
+##Smedo
+> This is a tool for marketers to collaborate and manage Twitter conversations better in the organization. 
 
-This is a tool for marketers to collaborate and manage Twitter conversations better in the organization. 
+###Screenshot
+![alt text][img]
+[img]: http://i60.tinypic.com/imhx8z.png
+
 
 ###How to use Smedo? 
 - Live tweets are streamed into the web app based on keywords specified by users. 
