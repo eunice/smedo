@@ -5,6 +5,10 @@
 https://www.youtube.com/watch?v=hgYV-quI5X8&feature=youtu.be
 
 ###Screenshot
+![alt text][inbox]
+[inbox]: http://i61.tinypic.com/sb3bbr.png
+![alt text][tweet]
+[tweet]: http://i58.tinypic.com/107tdhl.png 
 ![alt text][reach]
 [reach]: http://i59.tinypic.com/hvw7ed.png
 ![alt text][sentiment]
