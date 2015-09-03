@@ -64,11 +64,11 @@ gulp.task('browserify', function(){
   return watcher
   .on('update', function(){
     var updateStart = Date.now();
-    console.log('Updating!');
+    console.log('Browserifying!');
     watcher.bundle()
     .pipe(source('main.js'))
     .pipe(gulp.dest('./public'));
-    console.log('Updated!', (Date.now() - updateStart) + 'ms');
+    console.log('Browserified!', (Date.now() - updateStart) + 'ms');
   })
   .bundle()
   .pipe(source('main.js'))

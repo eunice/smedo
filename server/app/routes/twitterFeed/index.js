@@ -3,23 +3,10 @@
 var router = require('express').Router();
 module.exports = router;
 var request = require('request');
-// var io = require('../../../io')();
-
-//Twitter API----------------------------------------------------------
-var Twit = require('twit');
-var client = new Twit({
-  consumer_key: 'Lpc5r8Br4Fp6bVLJRXqM7GGMR',
-  consumer_secret: 'XktbH52B5znLyBn5IfuowidlTkYySqvyz7BFXEFCTVloCgRw8T',
-  access_token: '1438719499-EQUC2lVp3oS2CjcNJmTwW0P0f4vYlbf1yPaWgrh',
-  access_token_secret: 'kCgv6LZBYcMJpC7CtctubKfPkrR6bEOV8fJnbi14cZdP7'
-});
 
 //AlchemyAPI----------------------------------------------------------
 var AlchemyAPI = require('./alchemyapi.js');
 var alchemyapi = new AlchemyAPI();
-
-//Firebase------------------------------------------------------------
-var Firebase = require('firebase');
 
 // listen to tweet streams----------------------------------------------------
 // use socket to pass keyword for tracker
