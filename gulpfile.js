@@ -5,6 +5,10 @@ var babel = require('gulp-babel');
 var gulp = require('gulp');
 var runSeq = require('run-sequence');
 var plumber = require('gulp-plumber');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var reactify = require('reactify');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
@@ -47,6 +51,28 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(babel())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
+});
+
+gulp.task('browserify', function(){
+  var bundler = browserify({
+    entries: ['./public/main.js'],
+    transform: [reactify],
+    debug: true,
+    cache: {}, packageCache: {}, fullPaths: true
+  });
+  var watcher = watchify(bundler);
+  return watcher
+  .on('update', function(){
+    var updateStart = Date.now();
+    console.log('Updating!');
+    watcher.bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./public'));
+    console.log('Updated!', (Date.now() - updateStart) + 'ms');
+  })
+  .bundle()
+  .pipe(source('main.js'))
+  .pipe(gulp.dest('./public'));
 });
 
 gulp.task('testServerJS', function (done) {
@@ -135,7 +161,7 @@ gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
         runSeq(['buildJSProduction', 'buildCSSProduction']);
     } else {
-        runSeq(['buildJS', 'buildCSS']);
+        runSeq(['buildJS', 'browserify', 'buildCSS']);
     }
 });
 
@@ -145,7 +171,7 @@ gulp.task('default', function () {
     gulp.start('build');
 
     gulp.watch('browser/js/**', function () {
-        runSeq('buildJS', 'reload');
+        runSeq('buildJS', 'browserify','reload');
     });
 
     gulp.watch('browser/scss/**', function () {
