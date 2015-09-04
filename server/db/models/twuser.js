@@ -5,6 +5,7 @@ var schema = new mongoose.Schema({
     userid: String,
     screenName: String,
     name: String,
+    profileimg: String,
     location: String,
     createdAt: String,
     favorites: Number,
@@ -14,14 +15,9 @@ var schema = new mongoose.Schema({
     description: String,
     tweets: [{
       type: mongoose.Schema.Types.ObjectId, ref: 'Tweet'
-    }],
-    sentiment: {
-      label: {
-        type: String,
-        enum:['V.Positive','Positive','V.Negative','Negative','Neutral']
-      },
-      score: Number
-    }
+    }]
 });
+
+//STATIC: check if user exist -> if do, query+update+findid. if not, create+addid
 
 mongoose.model('TwitterUser', schema);
