@@ -2,7 +2,7 @@
 var router = require('express').Router();
 module.exports = router;
 
-router.use('/tweet', require('./twitterFeed'));
+router.use('/', require('./streamHandle'));
 
 // Make sure this is after all of
 // the registered routes!

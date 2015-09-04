@@ -15,11 +15,13 @@ var schema = new mongoose.Schema({
     tweets: [{
       type: mongoose.Schema.Types.ObjectId, ref: 'Tweet'
     }],
-    sentimentType: {
-      type: String,
-      enum:['V.Positive','Positive','V.Negative','Negative','Neutral']
-    },
-    sentimentScore: Number,
+    sentiment: {
+      label: {
+        type: String,
+        enum:['V.Positive','Positive','V.Negative','Negative','Neutral']
+      },
+      score: Number
+    }
 });
 
 mongoose.model('TwitterUser', schema);
