@@ -3,6 +3,7 @@ var router = require('express').Router();
 var mongoose = require('mongoose');
 var Tweet = mongoose.model('Tweet');
 var TwitterUser = mongoose.model('TwitterUser');
+var Overview = mongoose.model('Overview');
 
 module.exports = router;
 
@@ -48,24 +49,23 @@ process.nextTick(function() {
               description: data.user.description
           };
 
-          console.log('holdingggg',Tweet.checkIfDuplicate(data.id_str))
-
-          //check
+          //chain Promises!!!
+          // console.log('holdingggg',Tweet.checkIfDuplicate(data.id_str))
 
           Tweet.checkIfDuplicate(data.id_str).then(function(exist){
             if (!exist) {
+
               TwitterUser.checkAndCreate(u,keyword)
                 .then(function(user){
                   // console.log('twitter user created')
                   t.twuser = user._id;
-                })
-                .then(function(){
                   Tweet.create(t).then(function(tweet){
-                    console.log('this is what TWEET created')
-                    // io.emit('tweet',tweet)
+                    console.log('this is what TWEET created',tweet)
+                    io.emit('tweet',tweet)
                   });
                 })
-                // .then(function(){}) //overview handling
+
+                //overview handling
             }
           });
 
@@ -100,11 +100,3 @@ process.nextTick(function() {
           // }
           // else {
           // }
-
-router.post('/postStatus', function (req, res) {
-
-  client.post('statuses/update', { status: req.body.status }, function(err, data, response) {
-      console.log('err', err);
-  })
-
-})

@@ -18,7 +18,6 @@ var schema = new mongoose.Schema({
 
 schema.statics.checkAndCreate = function(u, keyword, cb){
   // console.log('user checking and creating')
-
   var self = this;
   return this.findOne({userid: u.userid}).exec().then(function(user){
     if (!user){

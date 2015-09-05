@@ -27,11 +27,26 @@ var schema = new mongoose.Schema({
     }
 });
 
+//es6!!!!
 schema.statics.getTweets = function(page,skip,cb){
   var tweets = [],
       start = (page*10) + (skip*1);
 
-  // Tweet.find({})
+  // Query the db, using skip and limit to achieve page chunks
+  return this.find({}, {skip: start, limit: 10}).sort({date: 'desc'})
+  .exec(function(docs){
+
+      tweets = docs;  // We got tweets
+      tweets.forEach(function(tweet){
+        tweet.active = true; // Set them to active
+      });
+    // // Pass them back to the specified callback
+    // cb(tweets);
+
+  }, cb);
+
+  //populate!
+
 };
 
 schema.statics.checkIfDuplicate = function(twid){
@@ -42,7 +57,6 @@ schema.statics.getSentimentScore = function(text){
   var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
-    // console.log('sentiment res!!!', response["docSentiment"]);
     var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0
     if(s) deferred.resolve(s)
     else deferred.reject('nonono')
@@ -51,6 +65,7 @@ schema.statics.getSentimentScore = function(text){
   return deferred.promise;
 };
 
+//use virtual?
 schema.statics.getSentimentLabel = function(s){
   var l;
   if (s > 0.5 && s <= 1) l = "V.Positive"
@@ -65,27 +80,15 @@ schema.statics.getSentimentLabel = function(s){
 schema.pre('save', function(next){
   var self = this;
 
-  Q(this.constructor.getSentimentScore(this.text))
-  .then(function(score){
+  Q(this.constructor.getSentimentScore(this.text)).then(function(score){
     self.sentiment.score = score;
     self.sentiment.label = self.constructor.getSentimentLabel(score);
     next();
   });
+
 })
 
 //METHOD: UPDATE RESPONSE
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// schema.pre('save', function (next) {
-//
-//     if (this.isModified('password')) {
-//         this.salt = this.constructor.generateSalt();
-//         this.password = this.constructor.encryptPassword(this.password, this.salt);
-//     }
-//
-//     next();
-// });
-
 // schema.method('correctPassword', function (candidatePassword) {
 //     return encryptPassword(candidatePassword, this.salt) === this.password;
 // });

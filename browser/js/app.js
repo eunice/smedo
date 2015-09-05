@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('SmedoApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'firebase', 'ngMaterial']);
+window.app = angular.module('SmedoApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'react','firebase', 'ngMaterial']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)

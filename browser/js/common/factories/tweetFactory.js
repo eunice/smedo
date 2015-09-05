@@ -3,13 +3,13 @@ app.factory('TweetFactory', function ($http) {
     return {
         getPastMentions: function(){
         	console.log('hit getMentions');
-            return $http.get('api/tweet/getPastMentions').then(function(response){
+            return $http.get('api/getPastMentions').then(function(response){
                 return response.data;
             });
         },
 
         post: function(status) {
-          return $http.post('api/tweet/postStatus', {status: status}).then(function(response){
+          return $http.post('api/postStatus', {status: status}).then(function(response){
             return response.data;
           });
         }
