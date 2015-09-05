@@ -8,7 +8,6 @@ app.directive('navbar', function ($rootScope, $state) {
 
             scope.items = [
                 { label: 'Inbox', state: 'inbox' },
-                { label: 'Tweets Archives', state: 'archives' },
                 { label: 'Dashboard', state: 'dashboard'}
             ];
 
