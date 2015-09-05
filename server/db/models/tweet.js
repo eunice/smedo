@@ -41,32 +41,47 @@ schema.statics.checkIfDuplicate = function(twid){
   })
 }
 
-schema.statics.getSentiment = function(text){
-  var s, l;
-  console.log('@sentiment!!!start',text.split(' ')[0])
-  var start = Date.now()
+schema.statics.getSentimentScore = function(text){
+  console.log('@sentiment!!!start')
+
+  var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
-    s = response["docSentiment"]["score"] || 0;
-    console.log('sentiment res!!!', response["docSentiment"]["score"])
+    console.log('sentiment res!!!', response["docSentiment"]["score"]);
+    var s = response["docSentiment"]["score"] || 0;
 
-    if (s > 0.5 && s <= 1) l = "V.Positive"
-    else if (s > 0 && s <= 0.5) l = "Positive"
-    else if (s === 0) l = "Neutral"
-    else if (s > -0.5 && s < 0) l = "Negative"
-    else if (s >= -1 && s <= -0.5) l = "V.Negative"
+    if (s) deferred.resolve(s)
+    else deferred.reject('nonono')
 
-    console.log('s!!!!!!!!',s,l)
-
-    return Q({label: l, score: s});
   });
+
+  return deferred.promise;
 };
 
-schema.pre('save', function(next){
-  console.log('presave tweet')
+schema.statics.getSentimentLabel = function(s){
+  var l;
 
-  this.sentiment = this.constructor.getSentiment(this.text);
-  next();
+  if (s > 0.5 && s <= 1) l = "V.Positive"
+  else if (s > 0 && s <= 0.5) l = "Positive"
+  else if (s === 0) l = "Neutral"
+  else if (s > -0.5 && s < 0) l = "Negative"
+  else if (s >= -1 && s <= -0.5) l = "V.Negative"
+
+  return l;
+}
+
+schema.pre('save', function(next){
+  console.log('presave tweet', this.constructor.getSentimentScore(this.text))
+
+  Q(this.constructor.getSentimentScore(this.text))
+  .then(function(score){
+    console.log('scoreee',score)
+    this.sentiment.score = score;
+    this.sentiment.label = this.constructor.getSentimentLabel(score);
+    console.log('label',label)
+    next();
+  })
+
 })
 
 //METHOD: UPDATE RESPONSE

@@ -17,14 +17,14 @@ var schema = new mongoose.Schema({
 });
 
 schema.statics.checkAndCreate = function(u, keyword, cb){
-  console.log('user checking and creating')
+  // console.log('user checking and creating')
 
   var self = this;
   return this.findOne({userid: u.userid}).exec().then(function(user){
     if (!user){
 
       mongoose.model('Overview').findOne({keyword: keyword}).exec().then(function(file){
-        console.log('i am incre unique users!!')
+        // console.log('i am incre unique users!!')
         file.numUniqueUsers++
         file.save()
       })
@@ -32,7 +32,7 @@ schema.statics.checkAndCreate = function(u, keyword, cb){
       return self.create(u);
 
     } else {
-      console.log('user checking and creating222')
+      // console.log('user checking and creating222')
       user = u;
       return user.save(); //NEED TO TEST THIS
     }
