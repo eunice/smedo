@@ -48,21 +48,26 @@ process.nextTick(function() {
               description: data.user.description
           };
 
-          //check if tweet exist before +
+          console.log('holdingggg',Tweet.checkIfDuplicate(data.id_str))
 
-          TwitterUser.checkAndCreate(u,keyword)
-            .then(function(user){
-              // console.log('twitter user created')
-              t.twuser = user._id;
-            })
-            .then(function(){
-              Tweet.create(t).then(function(tweet){
-                console.log('this is what TWEET created', tweet)
-                // io.emit('tweet',t)
-              });
-            })
-            // .then(function(){}) //overview handling
+          //check
 
+          Tweet.checkIfDuplicate(data.id_str).then(function(exist){
+            if (!exist) {
+              TwitterUser.checkAndCreate(u,keyword)
+                .then(function(user){
+                  // console.log('twitter user created')
+                  t.twuser = user._id;
+                })
+                .then(function(){
+                  Tweet.create(t).then(function(tweet){
+                    console.log('this is what TWEET created')
+                    // io.emit('tweet',tweet)
+                  });
+                })
+                // .then(function(){}) //overview handling
+            }
+          });
 
       });
   });

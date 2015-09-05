@@ -35,23 +35,15 @@ schema.statics.getTweets = function(page,skip,cb){
 };
 
 schema.statics.checkIfDuplicate = function(twid){
-  this.findOne({twid: twid}).exec().then(function(tweet){
-    if (!tweet) return false;
-    else return true;
-  })
+  return this.findOne({twid: twid}).exec()
 }
 
 schema.statics.getSentimentScore = function(text){
-  // console.log('@sentiment!!!start')
   var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
-    console.log('sentiment res!!!', response["docSentiment"]);
-    //ternary expression pls
-    var s;
-    if (!response["docSentiment"]) s = 0
-    else s = response["docSentiment"]["score"];
-
+    // console.log('sentiment res!!!', response["docSentiment"]);
+    var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0
     if(s) deferred.resolve(s)
     else deferred.reject('nonono')
   });
