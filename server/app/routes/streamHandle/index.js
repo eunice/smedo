@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'coffee';
+      var keyword = 'lalallalalalalallalalalaa';
 
       //create overview page for new keyword
       console.log('hihihi?')

@@ -32,20 +32,10 @@ schema.statics.getTweets = function(page,skip,cb){
   var tweets = [],
       start = (page*10) + (skip*1);
 
-  // Query the db, using skip and limit to achieve page chunks
-  return this.find({}, {skip: start, limit: 10}).sort({date: 'desc'})
-  .exec(function(docs){
-
-      tweets = docs;  // We got tweets
-      tweets.forEach(function(tweet){
-        tweet.active = true; // Set them to active
-      });
-    // // Pass them back to the specified callback
-    // cb(tweets);
-
-  }, cb);
-
-  //populate!
+  return this.find({})
+    .sort({timestamp: 'desc'}).skip(start).limit(5)
+    .populate('twuser')
+    .exec()
 
 };
 

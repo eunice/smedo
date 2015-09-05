@@ -1,9 +1,9 @@
 app.factory('TweetFactory', function ($http) {
 
     return {
-        getPastMentions: function(){
-        	console.log('hit getMentions');
-            return $http.get('api/getPastMentions').then(function(response){
+        getTweets: function(){
+        	console.log('hit getTweets factory');
+            return $http.get('api/getTweets').then(function(response){
                 return response.data;
             });
         },

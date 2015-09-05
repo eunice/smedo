@@ -1,6 +1,6 @@
 app.directive('smedoLogo', function () {
     return {
         restrict: 'E',
-        templateUrl: 'js/common/directives/fullstack-logo/smedo-logo.html'
+        templateUrl: 'js/common/directives/smedo-logo/smedo-logo.html'
     };
 });

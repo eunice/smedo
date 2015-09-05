@@ -2,22 +2,36 @@
 
 
   <h3>
-    <img class="img-circle" src="{{ mention.user.profile_image_url }}" height="70" width="70">
-      {{ mention.user.name }}
-    <span>@{{ mention.user.screen_name }}</span>
+    <img class="img-circle" src="{{ user.profileimg }}" height="70" width="70">
+      {{ user.name }}
+    <span>@{{ user.screenName }}</span>
   </h3>
 
-  <p id="desription">{{ mention.user.description }}</p>
-  <p><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span><b>Joined Twitter:</b> {{ mention.user.created_at }}</p>
+  <p id="desription">{{ user.description }}</p>
+  <p>
+    <span class="glyphicon glyphicon-bookmark" aria-hidden="true">
+    </span><b>Joined Twitter:</b> {{ user.createdAt }}
+  </p>
 
-  <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"><b> Location:</b> {{ mention.user.location }}</p>
-  <p><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"><b> Favorites:</b> {{ mention.user.favourites_count }}</p>
-  <p><span class="glyphicon glyphicon-user" aria-hidden="true"><b> Followers:</b> {{ mention.user.followers_count }}</p>
-  <p><span class="glyphicon glyphicon-heart" aria-hidden="true"><b> Friends:</b> {{ mention.user.friends_count }}</p>
+  <p>
+    <span class="glyphicon glyphicon-map-marker" aria-hidden="true">
+    <b> Location:</b> {{ user.location }}
+  </p>
 
+  <p>
+    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
+    <b> Favorites:</b> {{ user.favorites }}
+  </p>
 
+  <p><span class="glyphicon glyphicon-user" aria-hidden="true">
+    <b> Followers:</b> {{ user.followers }}
+  </p>
 
-  <p><b>Statuses:</b> {{ mention.user.statuses_count }}</p>
+  <p><span class="glyphicon glyphicon-heart" aria-hidden="true">
+    <b> Friends:</b> {{ user.friends }}
+  </p>
+
+  <p><b>Statuses:</b> {{ user.statuses }}</p>
 
 
   <div class="modal-footer">
