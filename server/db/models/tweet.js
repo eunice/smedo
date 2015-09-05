@@ -1,5 +1,6 @@
 'use strict';
 var mongoose = require('mongoose');
+var Q = require('q');
 var Alchemy = require('../../alchemy-api');
 var alchemy = new Alchemy();
 
@@ -8,7 +9,7 @@ var schema = new mongoose.Schema({
     twuser: {
       type: mongoose.Schema.Types.ObjectId, ref: 'TwitterUser'
     },
-    hashtag: String,
+    keyword: String,
     createdAt: String,
     timestamp: {type: Date, default: Date.now},
     active: Boolean,
@@ -20,7 +21,6 @@ var schema = new mongoose.Schema({
       },
       score: Number
     },
-    otherHashtags: [String],
     response: {
       status: Boolean,
       responseText: String
@@ -34,16 +34,21 @@ schema.statics.getTweets = function(page,skip,cb){
   // Tweet.find({})
 };
 
-var checkForUser = function(){
-  //find user id
-  //found -> getId
-  //not found -> createUser,getId
+schema.statics.checkIfDuplicate = function(twid){
+  this.findOne({twid: twid}).exec().then(function(tweet){
+    if (!tweet) return false;
+    else return true;
+  })
 }
 
-var getSentiment = function(text){
+schema.statics.getSentiment = function(text){
   var s, l;
+  console.log('@sentiment!!!start',text.split(' ')[0])
+  var start = Date.now()
+
   alchemy.sentiment("text", text, {}, function(response) {
     s = response["docSentiment"]["score"] || 0;
+    console.log('sentiment res!!!', response["docSentiment"]["score"])
 
     if (s > 0.5 && s <= 1) l = "V.Positive"
     else if (s > 0 && s <= 0.5) l = "Positive"
@@ -51,68 +56,22 @@ var getSentiment = function(text){
     else if (s > -0.5 && s < 0) l = "Negative"
     else if (s >= -1 && s <= -0.5) l = "V.Negative"
 
-    return {score: s, label: l}
+    console.log('s!!!!!!!!',s,l)
+
+    return Q({label: l, score: s});
   });
 };
 
-var getOtherHashtags = function(text,keyword){
-    //add to overview
-}
-
-// text.split(" ").forEach(function(word){
-//     word = word.toLowerCase();
-//     if (word.indexOf("trump") === -1) {
-//         var initial = word.split("").shift();
-//         if (initial === "#") {
-//           var re = /([A-Za-z0-9])+/g
-//           word = word.match(re)[0];
-//           // console.log(word);
-//           obj.hashtags = obj.hashtags || {};
-//           obj.hashtags[word] = obj.hashtags[word] || {};
-//           obj.hashtags[word].count = obj.hashtags[word].count || 0;
-//           obj.hashtags[word].count++
-//           obj.hashtags[word].totalSentiment = obj.hashtags[word].totalSentiment || 0;
-//           obj.hashtags[word].totalSentiment += s;
-//           obj.hashtags[word].aveSentiment = obj.hashtags[word].totalSentiment / obj.hashtags[word].count;
-//           obj.hashtags[word].reach = obj.hashtags[word].reach || 0;
-//           obj.hashtags[word].reach += data.user.followers_count;
-//
-//           //update other relevant word
-//           for (var otherWord in obj.hashtags) {
-//             var alternate = word.slice(0,5);
-//             if (otherWord.indexOf(alternate) !== -1) {
-//               console.log('duplicated',alternate, otherWord)
-//               obj.hashtags[otherWord].count++
-//               obj.hashtags[otherWord].count = obj.hashtags[otherWord].count || 0;
-//               obj.hashtags[otherWord].totalSentiment = obj.hashtags[otherWord].totalSentiment || 0;
-//               obj.hashtags[otherWord].totalSentiment += s;
-//               obj.hashtags[otherWord].aveSentiment = obj.hashtags[otherWord].totalSentiment / obj.hashtags[otherWord].count;
-//
-//             }
-//           }
-//         }
-//     }
-//   })
-
-var createTweet = function (t,u) {}
-
-// pre-save
 schema.pre('save', function(next){
+  console.log('presave tweet')
 
-})
-// post
-schema.post('save', function(tweet){
-  console.log('tweet saved!', tweet)
-  return tweet;
+  this.sentiment = this.constructor.getSentiment(this.text);
+  next();
 })
 
 //METHOD: UPDATE RESPONSE
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// var generateSalt = function () {
-//     return crypto.randomBytes(16).toString('base64');
-// };
-//
 // schema.pre('save', function (next) {
 //
 //     if (this.isModified('password')) {
@@ -122,9 +81,7 @@ schema.post('save', function(tweet){
 //
 //     next();
 // });
-//
-// schema.statics.generateSalt = generateSalt;
-//
+
 // schema.method('correctPassword', function (candidatePassword) {
 //     return encryptPassword(candidatePassword, this.salt) === this.password;
 // });

@@ -2,7 +2,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var Tweet = mongoose.model('Tweet');
-var TwitterUer = mongoose.model('TwitterUser');
+var TwitterUser = mongoose.model('TwitterUser');
 
 module.exports = router;
 
@@ -11,21 +11,23 @@ var Twit = require('twit');
 var twconfig = require('../../../env').TWITTERAPI;
 var twit = new Twit(twconfig);
 
-//check if 1000. hit limit msg
 process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
-      var keyword = 'coffee'; //edit keyword here
-      var stream = twit.stream('statuses/filter', { track: keyword });
+      //add keyword
+      var keyword = 'coffee';
+
+      //create overview page for new keyword
+      console.log('hihihi?')
 
       //stream tweet
+      var stream = twit.stream('statuses/filter', { track: keyword});
       stream.on('tweet', function (data) {
-          console.log('!!!!',data)
+          console.log('!!!! im coming')
 
-          //create + save doc to db
           var t = {
               twid: data.id_str,
-              hashtag: keyword,
+              keyword: keyword,
               createdAt: data.created_at.slice(0,19),
               active: false,
               text: data.text,
@@ -34,26 +36,35 @@ process.nextTick(function() {
 
           var u = {
               userid: data.user.id_str,
-              profileimg: profile_image_url,
               screenName: data.user.screen_name,
               name: data.user.name,
+              profileimg: data.user.profile_image_url,
               location: data.user.location,
-              createdAt: data.user.created_at,
-              favorites: data.user.favorites_count,
+              createdAt: data.user.created_at.slice(0,19),
+              favorites: data.user.favourites_count,
               followers: data.user.followers_count,
               friends: data.user.friends_count,
               statuses: data.user.statuses_count,
               description: data.user.description
           };
 
-          // t.save(function(err){
-          //   if (err) console.log(err.message);
-          //   io.emit('tweet',t)
-          // });
-          // return instance + emit to client (react comp)
+          //check if tweet exist before +
+
+          TwitterUser.checkAndCreate(u,keyword)
+            .then(function(user){
+              console.log('twitter user created')
+              t.twuser = user._id;
+            })
+            .then(function(){
+              Tweet.create(t).then(function(tweet){
+                console.log('this is what TWEET created', tweet.sentiment)
+                // io.emit('tweet',t)
+              });
+            })
+            // .then(function(){}) //overview handling
+
 
       });
-
   });
 })
           // if sentiment undefined:
