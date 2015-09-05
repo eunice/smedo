@@ -33,7 +33,7 @@ schema.statics.getTweets = function(page,skip,cb){
       start = (page*10) + (skip*1);
 
   return this.find({})
-    .sort({timestamp: 'desc'}).skip(start).limit(5)
+    .sort({timestamp: 'desc'}).skip(start).limit(20)
     .populate('twuser')
     .exec()
 

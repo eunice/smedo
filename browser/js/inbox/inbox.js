@@ -17,7 +17,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       })
 
     // dashboard.$bindTo($scope, "realtime"); //ng-model "data.text", {{data.text}}
-
     Socket.on('sentiment', function(data) {
 
       $timeout(function() {
@@ -28,7 +27,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     // $scope.realtime.forEach(function(mention){
     //   $scope.checkToLoad(mention);
     // })
-
 
     $scope.reply = function (index, mention) {
         $scope.arr[index] = true; //set showForm to true
@@ -44,14 +42,14 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
           tweet.loading = false;
           donaldTrump.$save(tweet) //HERE
         }
-      })
-
-      if(mention.reply.text.length) mention.loading = true;
-    }
 
         if (tweet.$id === mention.$id){
-      donaldTrump.forEach(function(tweet){ //HERE
-      mention.loading = false;
+          donaldTrump.forEach(function(tweet){ //HERE
+            mention.loading = false;
+          })
+        }
+
+        if(mention.reply.text.length) mention.loading = true;
     }
 
     $scope.close = function(index, mention) {
@@ -60,7 +58,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       // var el = document.querySelector('#incomingTweet');
       // angular.element(el).css({"background-color": "white"});
     }
-
 
     $scope.post = function(mention, index) {
 

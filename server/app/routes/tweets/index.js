@@ -21,11 +21,8 @@ router.get('/getTweets', function(req, res, next) {
       tweets.forEach(function(tweet){
         tweet.active = true; // Set them to active
       });
-    console.log('here are the tweeets bitch')
-    res.send(tweets)
-    // // Pass them back to the specified callback
-    // cb(tweets);
-
+      console.log('here are the tweeets bitch')
+      res.send(tweets)
   }, next)
 
   //
@@ -40,7 +37,7 @@ router.get('/getTweets', function(req, res, next) {
 });
 
 router.get('/getPage', function(req, res, next) {
-  Tweet.getTweets(req.params.page, req.params.skip, function(tweets){
+  Tweet.getTweets(req.params.page, req.params.skip).then(function(tweets){
     res.send(tweets);
   })
 });

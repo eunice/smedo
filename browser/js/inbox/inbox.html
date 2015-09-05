@@ -1,15 +1,9 @@
 <!-- <section id="home"> -->
-<pre>{{ oldTweets[0] }}</pre>
+<!-- <pre>{{ oldTweets[0] }}</pre> -->
 
 <div class="container-fluid">
-  <div class="row" id="inbox-label">
-    <div class="col-md-1"></div>
-    <div class="col-md-4">Tweets Inbox</div>
-    <div class="col-md-1">Sentiment</div>
-    <div class="col-md-1">Score</div>
-    <div class="col-md-1">Influencer</div>
-    <div class="col-md-2">Since</div>
-  </div>
+
+  <inbox-bar></inbox-bar>
 
   <div class="row" ng-repeat="tweet in oldTweets">
     <div ng-click="reply($index, mention)" id="incomingTweet">
@@ -27,7 +21,8 @@
                          'yellow': tweet.sentiment.label === 'Neutral',
                          'lgreen': tweet.sentiment.label === 'Positive',
                          'green': tweet.sentiment.label === 'V.Positive'}">
-              {{ tweet.sentiment.label }}</button>
+              {{ tweet.sentiment.label }}
+      </button>
     </div>
 
     <div class="col-md-1" id="score">{{ tweet.sentiment.score }}</div>
