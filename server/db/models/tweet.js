@@ -42,17 +42,18 @@ schema.statics.checkIfDuplicate = function(twid){
 }
 
 schema.statics.getSentimentScore = function(text){
-  console.log('@sentiment!!!start')
-
+  // console.log('@sentiment!!!start')
   var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
-    console.log('sentiment res!!!', response["docSentiment"]["score"]);
-    var s = response["docSentiment"]["score"] || 0;
+    console.log('sentiment res!!!', response["docSentiment"]);
+    //ternary expression pls
+    var s;
+    if (!response["docSentiment"]) s = 0
+    else s = response["docSentiment"]["score"];
 
-    if (s) deferred.resolve(s)
+    if(s) deferred.resolve(s)
     else deferred.reject('nonono')
-
   });
 
   return deferred.promise;
@@ -60,7 +61,6 @@ schema.statics.getSentimentScore = function(text){
 
 schema.statics.getSentimentLabel = function(s){
   var l;
-
   if (s > 0.5 && s <= 1) l = "V.Positive"
   else if (s > 0 && s <= 0.5) l = "Positive"
   else if (s === 0) l = "Neutral"
@@ -71,17 +71,14 @@ schema.statics.getSentimentLabel = function(s){
 }
 
 schema.pre('save', function(next){
-  console.log('presave tweet', this.constructor.getSentimentScore(this.text))
+  var self = this;
 
   Q(this.constructor.getSentimentScore(this.text))
   .then(function(score){
-    console.log('scoreee',score)
-    this.sentiment.score = score;
-    this.sentiment.label = this.constructor.getSentimentLabel(score);
-    console.log('label',label)
+    self.sentiment.score = score;
+    self.sentiment.label = self.constructor.getSentimentLabel(score);
     next();
-  })
-
+  });
 })
 
 //METHOD: UPDATE RESPONSE

@@ -52,12 +52,12 @@ process.nextTick(function() {
 
           TwitterUser.checkAndCreate(u,keyword)
             .then(function(user){
-              console.log('twitter user created')
+              // console.log('twitter user created')
               t.twuser = user._id;
             })
             .then(function(){
               Tweet.create(t).then(function(tweet){
-                console.log('this is what TWEET created', tweet.sentiment)
+                console.log('this is what TWEET created', tweet)
                 // io.emit('tweet',t)
               });
             })
