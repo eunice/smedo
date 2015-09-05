@@ -1,4 +1,4 @@
-app.directive('inboxbar', function ($rootScope, $state) {
+app.directive('inboxBar', function ($rootScope, $state) {
 
     return {
         restrict: 'E',

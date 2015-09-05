@@ -14,13 +14,6 @@ app.factory('TweetFactory', function ($http) {
           });
         }
 
-        // signUpInfo: function(signupinfo){
-        // 	console.log('hit factory'+signupinfo);
-        //     return $http.post('/tweet/getMentions', signupinfo).then(function(response){
-        //         return response.data;
-        //     });
-        // },
-
         // checkSignUp: function(email){
         // 	console.log('hit checkSignUp', email);
         // 	var queryParams= {};

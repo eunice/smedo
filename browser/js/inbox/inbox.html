@@ -1,57 +1,14 @@
-<!-- <section id="home"> -->
 <!-- <pre>{{ oldTweets[0] }}</pre> -->
 
-<div class="container-fluid">
+<section class="container-fluid">
 
+  <notification></notification>
   <inbox-bar></inbox-bar>
 
   <div class="row" ng-repeat="tweet in oldTweets">
-    <div ng-click="reply($index, mention)" id="incomingTweet">
-    <div class="col-md-1"><img class="img-circle" src="{{tweet.twuser.profileimg}}"></div>
-    <div class="col-md-4">
-      <span id="user-name">{{ tweet.twuser.name }}</span>
-      <span id="screen-name">@{{ tweet.twuser.screenName }}</span>
-      <p>{{ tweet.text }}</p>
-    </div>
-
-    <div class="col-md-1">
-      <button class="sentiment-label"
-              ng-class="{'red': tweet.sentiment.label === 'V.Negative',
-                         'orange': tweet.sentiment.label === 'Negative',
-                         'yellow': tweet.sentiment.label === 'Neutral',
-                         'lgreen': tweet.sentiment.label === 'Positive',
-                         'green': tweet.sentiment.label === 'V.Positive'}">
-              {{ tweet.sentiment.label }}
-      </button>
-    </div>
-
-    <div class="col-md-1" id="score">{{ tweet.sentiment.score }}</div>
-    <div class="col-md-1" id="score">{{ tweet.twuser.followers }}</div>
-    <div class="col-md-2" id="score">{{ tweet.createdAt }}</div>
-    <div class="col-md-1" ng-show="mention.loading===true"><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>
-    </div>
-
-
-    <div id='replyform' ng-show = "arr[$index]">
-      <!-- <md-input-container >
-      <!-- Use floating placeholder instead of label -->
-
-      <!-- </md-input-container> -->
-      <img id="twitter-logo" height="30px" src="../img/Twitter-Logo.png" />
-      <md-input-container >
-
-      <input ng-model="mention.reply.text" ng-change="realtime.$save(mention); checkToLoad(mention)" placeholder="Tweet Back" padding-top="1px">
-      </md-input-container>
-      <md-button md-no-ink class="md-primary" ng-click="viewProfile(tweet.twuser)">View Profile</md-button>
-      <!-- <md-button class="md-raised" ng-click="viewProfile(mention)">View Profile</md-button> -->
-      <md-button class="md-raised md-primary" ng-click="post(mention, $index)" >Tweet</md-button>
-      <md-button class="md-raised md-warn" ng-click="close($index, mention)">Close</md-button>
-
-    </div>
-
+    <tweet-display></tweet-display>
+    <reply-form></reply-form>
     <md-divider md-inset ng-if="!$last"></md-divider>
   </div>
 
-
-</div>
-<!-- </section> -->
+</section>

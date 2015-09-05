@@ -1,0 +1,9 @@
+<div id='replyform' ng-show = "arr[$index]">
+    <img id="twitter-logo" height="30px" src="../img/Twitter-Logo.png" />
+    <md-input-container >
+        <input ng-model="mention.reply.text" ng-change="realtime.$save(mention); checkToLoad(mention)" placeholder="Tweet Back" padding-top="1px">
+    </md-input-container>
+    <md-button md-no-ink class="md-primary" ng-click="viewProfile(tweet.twuser)">View Profile</md-button>
+    <md-button class="md-raised md-primary" ng-click="post(mention, $index)" >Tweet</md-button>
+    <md-button class="md-raised md-warn" ng-click="close($index, mention)">Close</md-button>
+</div>

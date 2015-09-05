@@ -1,0 +1,8 @@
+<button class="sentiment-label"
+        ng-class="{'red': tweet.sentiment.label === 'V.Negative',
+                   'orange': tweet.sentiment.label === 'Negative',
+                   'yellow': tweet.sentiment.label === 'Neutral',
+                   'lgreen': tweet.sentiment.label === 'Positive',
+                   'green': tweet.sentiment.label === 'V.Positive'}">
+        {{ tweet.sentiment.label }}
+</button>
