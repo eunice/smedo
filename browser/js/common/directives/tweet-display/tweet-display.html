@@ -1,4 +1,4 @@
-
+<div class="row" ng-if="tweet.active" >
   <div ng-click="reply($index, mention)" id="incomingTweet">
       <div class="col-md-1"><img class="img-circle" src="{{tweet.twuser.profileimg}}"></div>
       <div class="col-md-4">
@@ -15,4 +15,8 @@
       <div class="col-md-1" id="score">{{ tweet.twuser.followers }}</div>
       <div class="col-md-2" id="score">{{ tweet.createdAt }}</div>
       <div class="col-md-1" ng-show="mention.loading===true"><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>
+
   </div>
+      <reply-form></reply-form>
+      <md-divider md-inset></md-divider>
+</div>

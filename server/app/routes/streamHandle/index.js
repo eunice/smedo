@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'coffee';
+      var keyword = 'lalalallalalalalala';
 
       //create overview page for new keyword
       console.log('hihihi?')
@@ -49,6 +49,8 @@ process.nextTick(function() {
               description: data.user.description
           };
 
+          
+
           Tweet.checkIfDuplicate(data.id_str).then(function(exist){
               if (!exist) {
 
@@ -61,8 +63,7 @@ process.nextTick(function() {
                       return Tweet.getTweetById(tweet._id)
                   })
                   .then(function(tweet){
-                      console.log('this is what TWEET created',tweet)
-
+                      console.log('this is what TWEET created')
                       socket.emit('newTweet',tweet)
                   })
 

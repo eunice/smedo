@@ -1,16 +1,7 @@
-<!-- <pre>{{ oldTweets[0] }}</pre> -->
-
 <section class="container-fluid">
 
   <notification></notification>
   <inbox-bar></inbox-bar>
-
-  <div class="row" ng-repeat="tweet in oldTweets">
-    <tweet-display></tweet-display>
-    <reply-form></reply-form>
-    <md-divider md-inset></md-divider>
-  </div>
+  <tweet-display ng-repeat="tweet in oldTweets"></tweet-display>
 
 </section>
-
-<!--  ng-if="!$last" -->

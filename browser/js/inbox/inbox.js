@@ -22,9 +22,9 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       $scope.count += 1; //update noti-bar
       $scope.skip += 1;
 
-      // $timeout(function() {
-      //   $scope.$digest();
-      // },0);
+      $timeout(function() {
+        $scope.$digest();
+      },0);
     })
 
     //add event listener on scroll in browser in angular?
