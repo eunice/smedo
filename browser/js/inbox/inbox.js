@@ -8,25 +8,44 @@ app.config(function ($stateProvider) {
 
 app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
 
-    var ref = new Firebase('https://smedo-fs.firebaseio.com/');
-    var response = $firebaseArray(ref);
-    $scope.arr = [];
-
     TweetFactory.getTweets().then(function(tweets){
         $scope.oldTweets = tweets;
-      })
-
-    // dashboard.$bindTo($scope, "realtime"); //ng-model "data.text", {{data.text}}
-    Socket.on('sentiment', function(data) {
-
-      $timeout(function() {
-        $scope.$digest();
-      },0);
+        $scope.updatedTweets = tweets;
+        $scope.count = 0;
+        $scope.skip = 0;
     })
+
+    Socket.on('newTweet', function(data) {
+
+      //add Tweet
+      $scope.updatedTweets.unshift(data);
+      $scope.count += 1; //update noti-bar
+      $scope.skip += 1;
+
+      // $timeout(function() {
+      //   $scope.$digest();
+      // },0);
+    })
+
+    //add event listener on scroll in browser in angular?
+    window.addEventListener('scroll', $scope.checkWindowScroll);
+
+    $scope.showNewTweets = function () {
+      $scope.updatedTweets.forEach(function(tweet){
+        tweet.active = true; //?????
+      });
+      $scope.oldTweets = $scope.updatedTweets;
+      $scope.count = 0;
+    };
+
 
     // $scope.realtime.forEach(function(mention){
     //   $scope.checkToLoad(mention);
     // })
+
+    var ref = new Firebase('https://smedo-fs.firebaseio.com/');
+    var response = $firebaseArray(ref);
+    $scope.arr = [];
 
     $scope.reply = function (index, mention) {
         $scope.arr[index] = true; //set showForm to true
@@ -39,6 +58,7 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         // var el = document.querySelector('#incomingTweet');
         // angular.element(el).css({"background-color": "blue"});
         $scope.checkToLoad = function(mention) {
+          if(mention.reply.text.length) mention.loading = true;
           tweet.loading = false;
           donaldTrump.$save(tweet) //HERE
         }
@@ -49,7 +69,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
           })
         }
 
-        if(mention.reply.text.length) mention.loading = true;
     }
 
     $scope.close = function(index, mention) {

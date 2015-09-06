@@ -17,9 +17,11 @@ var twit = new Twit(twconfig);
 
 router.get('/getTweets', function(req, res, next) {
 
+  //page,skip
   Tweet.getTweets(0,0).then(function(tweets){
       tweets.forEach(function(tweet){
         tweet.active = true; // Set them to active
+        tweet.save();//save 
       });
       console.log('here are the tweeets bitch')
       res.send(tweets)

@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'lalallalalalalallalalalaa';
+      var keyword = 'coffee';
 
       //create overview page for new keyword
       console.log('hihihi?')
@@ -49,21 +49,22 @@ process.nextTick(function() {
               description: data.user.description
           };
 
-          //chain Promises!!!
-          // console.log('holdingggg',Tweet.checkIfDuplicate(data.id_str))
-
           Tweet.checkIfDuplicate(data.id_str).then(function(exist){
-            if (!exist) {
+              if (!exist) {
 
-              TwitterUser.checkAndCreate(u,keyword)
-                .then(function(user){
-                  // console.log('twitter user created')
-                  t.twuser = user._id;
-                  Tweet.create(t).then(function(tweet){
-                    console.log('this is what TWEET created',tweet)
-                    io.emit('tweet',tweet)
-                  });
-                })
+                TwitterUser.checkAndCreate(u,keyword)
+                  .then(function(user){
+                      t.twuser = user._id;
+                      return Tweet.create(t)
+                  })
+                  .then(function(tweet){
+                      return Tweet.getTweetById(tweet._id)
+                  })
+                  .then(function(tweet){
+                      console.log('this is what TWEET created',tweet)
+
+                      socket.emit('newTweet',tweet)
+                  })
 
                 //overview handling
             }

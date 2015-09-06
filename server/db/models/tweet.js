@@ -27,7 +27,10 @@ var schema = new mongoose.Schema({
     }
 });
 
-//es6!!!!
+schema.statics.getTweetById = function(id){
+  return this.findOne({_id: id}).populate('twuser').exec()
+}
+
 schema.statics.getTweets = function(page,skip,cb){
   var tweets = [],
       start = (page*10) + (skip*1);
