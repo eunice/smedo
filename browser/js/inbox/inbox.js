@@ -8,18 +8,20 @@ app.config(function ($stateProvider) {
 
 app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
     var ref = new Firebase('https://smedo-fs.firebaseio.com/response');
-    var response = $firebaseArray(ref);
+    var firebaseRes = $firebaseObject(ref);
 
     TweetFactory.getTweets().then(function(tweets){
         $scope.oldTweets = tweets;
         $scope.updatedTweets = tweets;
         $scope.count = 0;
         $scope.skip = 0;
+        $scope.form = [];
     })
 
     //every refresh, firebase response loading
-    response.$loaded().then(function(){
-        response.forEach(function(res){
+    firebaseRes.$loaded().then(function(){
+
+        Object.keys(firebaseRes).forEach(function(res){
           console.log('response la', res)
           for (var i=0; i < $scope.oldTweets.length; i++){
             if ($scope.oldTweets[i]._id === res.twid){
@@ -48,46 +50,42 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       $scope.count = 0;
     };
 
-    $scope.arr = [];
-
+    $scope.showForm= function (index, tweet) {
+        $scope.form[index] = true;
+    }
 
     $scope.checkToLoad = function() {
 
     }
 
     //during typing
-    //$add
     //get el by twid -> set scope.tweet loading = true
     //save tweet res in firebase-> tw_id
     //bind scopeobj(twid)'s input ng-model to firebase(twid)
-    $scope.reply = function (index, tweet) {
 
-        //add
-        response.$add({twid: , text: })
-
-        //bind
-
-        $scope.arr[index] = true; //set showForm to true
-
-        if(tweet.response.responseText) tweet.loading = true;
-        tweet.loading = false;
-        response.$save(tweet)
-
-        if (tweet.$id === mention.$id){
-          donaldTrump.forEach(function(tweet){ //HERE
-            mention.loading = false;
-          })
-        }
-
+    $scope.reply = function(text,id){
+      firebaseRes.$loaded().then(function(){
+        firebaseRes[id] = text;
+        firebaseRes.$save();
+      })
     }
 
+    // if(tweet.response.responseText) tweet.loading = true;
+    // tweet.loading = false;
+    // response.$save(tweet)
+    //
+    // if (tweet.$id === mention.$id){
+    //   donaldTrump.forEach(function(tweet){ //HERE
+    //     mention.loading = false;
+    //   })
+    // }
 
     $scope.close = function(index, mention) {
 
       //save to db!!!!
 
-      $scope.arr[index] = false; //set showForm to false
-      $scope.checkToLoad(mention);
+      $scope.form[index] = false; //set showForm to false
+      // $scope.checkToLoad(mention);
       // var el = document.querySelector('#incomingTweet');
       // angular.element(el).css({"background-color": "white"});
     }

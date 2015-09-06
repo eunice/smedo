@@ -1,10 +1,10 @@
-<div id='replyform' ng-show = "arr[$index]">
+<div id='replyform' ng-show = "form[$index]">
     <img id="twitter-logo" height="30px" src="../img/Twitter-Logo.png" />
     <md-input-container >
-        <input ng-model="tweet.response.responseText" ng-change="reply(); response.$save(tweet.response.responseText); checkToLoad(tweet)" placeholder="Tweet Back" padding-top="1px">
+        <input ng-model="tweet.response.responseText" ng-change="reply(tweet.response.responseText,tweet._id); checkToLoad(tweet)" placeholder="Tweet Back" padding-top="1px">
     </md-input-container>
 
-    <div>{{ tweet.response.responseText }}</div>
+    <pre>{{ tweet.response.responseText }}</pre>
 
     <md-button md-no-ink class="md-primary" ng-click="viewProfile(tweet.twuser)">View Profile</md-button>
     <md-button class="md-raised md-primary" ng-click="post(mention, $index)" >Tweet</md-button>

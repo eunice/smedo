@@ -1,5 +1,6 @@
 <div class="row" ng-if="tweet.active" id="{{tweet._id}}">
-    <div ng-click="reply($index, mention)" id="incomingTweet">
+    <div ng-click="showForm($index, tweet)" id="incomingTweet">
+      
         <div class="col-md-1"><img class="img-circle" src="{{tweet.twuser.profileimg}}"></div>
 
         <div class="col-md-4">
