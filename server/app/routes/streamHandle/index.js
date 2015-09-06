@@ -16,21 +16,22 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'lalalallalalalalala';
+      var keyword = 'lalalalallalalalal';
 
       //create overview page for new keyword
       console.log('hihihi?')
 
       //stream tweet
       var stream = twit.stream('statuses/filter', { track: keyword});
+      var previous = "";
       stream.on('tweet', function (data) {
-          console.log('!!!! im coming')
 
           var t = {
               twid: data.id_str,
               keyword: keyword,
               createdAt: data.created_at.slice(0,19),
               active: false,
+              loading: false,
               text: data.text,
               response: {status: false}
           };
@@ -49,11 +50,11 @@ process.nextTick(function() {
               description: data.user.description
           };
 
-          
+          //check if duplicate
+          if (previous != data.text) {
+                previous = data.text;
 
-          Tweet.checkIfDuplicate(data.id_str).then(function(exist){
-              if (!exist) {
-
+                //adding tweet to db + socket emit
                 TwitterUser.checkAndCreate(u,keyword)
                   .then(function(user){
                       t.twuser = user._id;
@@ -65,11 +66,11 @@ process.nextTick(function() {
                   .then(function(tweet){
                       console.log('this is what TWEET created')
                       socket.emit('newTweet',tweet)
+
                   })
 
                 //overview handling
-            }
-          });
+          }
 
       });
   });

@@ -13,6 +13,7 @@ var schema = new mongoose.Schema({
     createdAt: String,
     timestamp: {type: Date, default: Date.now},
     active: Boolean,
+    loading: Boolean,
     text: String,
     sentiment: {
       label: {
@@ -42,12 +43,9 @@ schema.statics.getTweets = function(page,skip,cb){
 
 };
 
-schema.statics.checkIfDuplicate = function(twid){
-  return this.findOne({twid: twid}).exec()
-}
-
 schema.statics.getSentimentScore = function(text){
   var deferred = Q.defer();
+  console.log('getting sentiment')
 
   alchemy.sentiment("text", text, {}, function(response) {
     var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0

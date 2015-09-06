@@ -7,6 +7,8 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
+    var ref = new Firebase('https://smedo-fs.firebaseio.com/response');
+    var response = $firebaseArray(ref);
 
     TweetFactory.getTweets().then(function(tweets){
         $scope.oldTweets = tweets;
@@ -15,9 +17,20 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         $scope.skip = 0;
     })
 
+    //every refresh, firebase response loading
+    response.$loaded().then(function(){
+        response.forEach(function(res){
+          console.log('response la', res)
+          for (var i=0; i < $scope.oldTweets.length; i++){
+            if ($scope.oldTweets[i]._id === res.twid){
+                $scope.oldTweets[i].loading = true;
+            }
+          }
+        });
+    });
+
     Socket.on('newTweet', function(data) {
 
-      //add Tweet
       $scope.updatedTweets.unshift(data);
       $scope.count += 1; //update noti-bar
       $scope.skip += 1;
@@ -27,41 +40,38 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
       },0);
     })
 
-    //add event listener on scroll in browser in angular?
-    window.addEventListener('scroll', $scope.checkWindowScroll);
-
     $scope.showNewTweets = function () {
       $scope.updatedTweets.forEach(function(tweet){
-        tweet.active = true; //?????
+        tweet.active = true;
       });
       $scope.oldTweets = $scope.updatedTweets;
       $scope.count = 0;
     };
 
-
-    // $scope.realtime.forEach(function(mention){
-    //   $scope.checkToLoad(mention);
-    // })
-
-    var ref = new Firebase('https://smedo-fs.firebaseio.com/');
-    var response = $firebaseArray(ref);
     $scope.arr = [];
 
-    $scope.reply = function (index, mention) {
+
+    $scope.checkToLoad = function() {
+
+    }
+
+    //during typing
+    //$add
+    //get el by twid -> set scope.tweet loading = true
+    //save tweet res in firebase-> tw_id
+    //bind scopeobj(twid)'s input ng-model to firebase(twid)
+    $scope.reply = function (index, tweet) {
+
+        //add
+        response.$add({twid: , text: })
+
+        //bind
+
         $scope.arr[index] = true; //set showForm to true
 
-        $scope.checkToLoad(mention);
-
-        // Socket.broadcast.emit('progress')
-        // $scope.progress[index].push(true);
-
-        // var el = document.querySelector('#incomingTweet');
-        // angular.element(el).css({"background-color": "blue"});
-        $scope.checkToLoad = function(mention) {
-          if(mention.reply.text.length) mention.loading = true;
-          tweet.loading = false;
-          donaldTrump.$save(tweet) //HERE
-        }
+        if(tweet.response.responseText) tweet.loading = true;
+        tweet.loading = false;
+        response.$save(tweet)
 
         if (tweet.$id === mention.$id){
           donaldTrump.forEach(function(tweet){ //HERE
@@ -71,7 +81,11 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
 
     }
 
+
     $scope.close = function(index, mention) {
+
+      //save to db!!!!
+
       $scope.arr[index] = false; //set showForm to false
       $scope.checkToLoad(mention);
       // var el = document.querySelector('#incomingTweet');
@@ -79,6 +93,8 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     }
 
     $scope.post = function(mention, index) {
+      //after tweeting back
+      //delete firebaseObj.
 
       TweetFactory.post("@"+mention.user.screen_name + " " + mention.reply.text);
       $scope.arr[index] = false; //set showForm to false
