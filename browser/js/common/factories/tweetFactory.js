@@ -8,8 +8,8 @@ app.factory('TweetFactory', function ($http) {
             });
         },
 
-        post: function(status) {
-          return $http.post('api/postStatus', {status: status}).then(function(response){
+        post: function(status, id) {
+          return $http.post('api/postStatus', {status: status, id: id}).then(function(response){
             return response.data;
           });
         }

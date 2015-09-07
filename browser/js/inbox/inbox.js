@@ -17,8 +17,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         $scope.count = 0;
         $scope.skip = 0;
         $scope.form = [];
-
-        console.log('??????', $scope.oldTweets[0])
     })
 
     Socket.on('newTweet', function(data) {
@@ -49,9 +47,8 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     }
 
     $scope.post = function(tweet, index) {
-      // console.log('hello')
       delete $scope.firebaseRes[tweet._id];
-      // TweetFactory.post("@"+tweet.user.screen_name + " " + firebaseRes[tweet._id]);
+      TweetFactory.post("@"+tweet.twuser.screenName + " " + firebaseRes[tweet._id], tweet._id);
       $scope.form[index] = false;
     }
 

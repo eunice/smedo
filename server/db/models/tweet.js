@@ -23,7 +23,7 @@ var schema = new mongoose.Schema({
     },
     response: {
       status: Boolean,
-      responseText: String
+      responseText: [String]
     }
 });
 
@@ -69,32 +69,24 @@ schema.virtual('sentimentLabel').get(function(){
   return l;
 });
 
-// schema.statics.getSentimentLabel = function(s){
-//   var l;
-//   if (s > 0.5 && s <= 1) l = "V.Positive"
-//   else if (s > 0 && s <= 0.5) l = "Positive"
-//   else if (s === 0) l = "Neutral"
-//   else if (s > -0.5 && s < 0) l = "Negative"
-//   else if (s >= -1 && s <= -0.5) l = "V.Negative"
-//
-//   return l;
-// }
-
 schema.pre('save', function(next){
   var self = this;
 
   Q(this.constructor.getSentimentScore(this.text)).then(function(score){
     self.sentiment.score = score;
     self.sentiment.label = self.sentimentLabel;
-    // console.log('presave!!!', self.sentimentLabel, score)
-    // self.constructor.getSentimentLabel(score);
     next();
   });
 
 })
 
-schema.method('updateResponse', function (reply) {
-    return encryptPassword(candidatePassword, this.salt) === this.password;
+//THIS DOESNT SAVE PROPERLY
+schema.method('updateResponse', function (status) {
+    this.response.status = true;
+    this.response.responseText.push(status);
+    this.response.save()
+    console.log('updated?CORRECT', this.response)
+
 });
 
 mongoose.model('Tweet', schema);
