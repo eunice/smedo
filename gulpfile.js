@@ -9,6 +9,7 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var istanbul = require('gulp-istanbul');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
@@ -20,7 +21,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var eslint = require('gulp-eslint');
 var mocha = require('gulp-mocha');
 var karma = require('karma').server;
-var istanbul = require('gulp-istanbul');
 
 // Development tasks
 // --------------------------------------------------------------
