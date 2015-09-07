@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
     var ref = new Firebase('https://smedo-fs.firebaseio.com/response');
     var firebaseRes = $firebaseObject(ref);
-    $scope.firebaseRes = firebaseRes;
+    firebaseRes.$bindTo($scope, "firebaseRes");
 
     TweetFactory.getTweets().then(function(tweets){
         $scope.oldTweets = tweets;
@@ -18,19 +18,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         $scope.skip = 0;
         $scope.form = [];
     })
-
-    //every refresh, firebase response loading
-    firebaseRes.$loaded().then(function(){
-        Object.keys(firebaseRes).forEach(function(id){
-
-          for (var i=0; i < $scope.oldTweets.length; i++){
-            if ($scope.oldTweets[i]._id === id){
-                if (firebaseRes[id]) $scope.oldTweets[i].loading = true;
-                $scope.oldTweets[i].response.responseText = firebaseRes[id];
-            }
-          }
-        });
-    });
 
     Socket.on('newTweet', function(data) {
 
@@ -58,25 +45,9 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         $scope.form[index] = false; //set showForm to false
     }
 
-    $scope.reply = function(text,tweet){
-      //save the text
-      firebaseRes.$loaded().then(function(){
-        firebaseRes[tweet._id] = text;
-        firebaseRes.$save();
-      })
-    }
-
-      // $scope.checkToLoad(mention);
-      // var el = document.querySelector('#incomingTweet');
-      // angular.element(el).css({"background-color": "white"});
-
-    $scope.post = function(mention, index) {
-      //after tweeting back
-      //delete firebaseObj.
-
-      TweetFactory.post("@"+mention.user.screen_name + " " + mention.reply.text);
-      $scope.arr[index] = false; //set showForm to false
-
+    $scope.post = function(tweet, index) {
+      TweetFactory.post("@"+tweet.user.screen_name + " " + firebaseRes[tweet._id]);
+      $scope.form[index] = false;
     }
 
     $scope.viewProfile = function(user) {
