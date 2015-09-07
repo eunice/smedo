@@ -79,9 +79,8 @@ schema.pre('save', function(next){
 
 })
 
-//METHOD: UPDATE RESPONSE
-// schema.method('correctPassword', function (candidatePassword) {
-//     return encryptPassword(candidatePassword, this.salt) === this.password;
-// });
+schema.method('updateResponse', function (reply) {
+    return encryptPassword(candidatePassword, this.salt) === this.password;
+});
 
 mongoose.model('Tweet', schema);

@@ -46,7 +46,9 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     }
 
     $scope.post = function(tweet, index) {
-      TweetFactory.post("@"+tweet.user.screen_name + " " + firebaseRes[tweet._id]);
+      //delete firebase object
+      delete $scope.firebaseRes[tweet._id];
+      // TweetFactory.post("@"+tweet.user.screen_name + " " + firebaseRes[tweet._id]);
       $scope.form[index] = false;
     }
 
