@@ -68,7 +68,6 @@ process.nextTick(function() {
 
                   })
 
-                //overview handling
           }
 
       });

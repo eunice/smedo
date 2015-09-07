@@ -2,6 +2,7 @@
 var router = require('express').Router();
 module.exports = router;
 
+router.use('/analytics', require('./analyticsProcess'));
 router.use('/stream', require('./streamHandle'));
 router.use('/', require('./tweets'));
 
