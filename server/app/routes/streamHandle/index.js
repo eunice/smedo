@@ -50,7 +50,7 @@ process.nextTick(function() {
           };
 
           //check if duplicate
-          if (previous != data.text) {
+          if (previous !== data.text) {
                 previous = data.text;
 
                 //adding tweet to db + socket emit

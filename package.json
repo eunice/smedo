@@ -75,6 +75,7 @@
     "twit": "^1.1.20",
     "twitter": "^1.2.5",
     "unpipe": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
   },
   "devDependencies": {
