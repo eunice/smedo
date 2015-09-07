@@ -1,6 +1,6 @@
 module.exports = {
   "DATABASE_URI": "mongodb://localhost:27017/smedo-app",
-  "SESSION_SECRET": "Optimus Prime is my real dad",
+  "SESSION_SECRET": "SmedoMarketingApp",
   "TWITTERAPI": {
     "consumer_key": 'Lpc5r8Br4Fp6bVLJRXqM7GGMR',
     "consumer_secret": 'XktbH52B5znLyBn5IfuowidlTkYySqvyz7BFXEFCTVloCgRw8T',
