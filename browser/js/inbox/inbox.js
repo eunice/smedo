@@ -17,6 +17,8 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
         $scope.count = 0;
         $scope.skip = 0;
         $scope.form = [];
+
+        console.log('??????', $scope.oldTweets[0])
     })
 
     Socket.on('newTweet', function(data) {
@@ -41,12 +43,13 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     $scope.showForm= function (index, tweet) {
         $scope.form[index] = true;
     }
+
     $scope.close = function(index, tweet) {
-        $scope.form[index] = false; //set showForm to false
+        $scope.form[index] = false;
     }
 
     $scope.post = function(tweet, index) {
-      //delete firebase object
+      // console.log('hello')
       delete $scope.firebaseRes[tweet._id];
       // TweetFactory.post("@"+tweet.user.screen_name + " " + firebaseRes[tweet._id]);
       $scope.form[index] = false;
@@ -69,7 +72,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
 app.controller('viewProfileModalCtrl', function ($scope, $modalInstance, user, $state) {
 
   $scope.user = user;
-
   $scope.close = function () {
     $modalInstance.close();
   }

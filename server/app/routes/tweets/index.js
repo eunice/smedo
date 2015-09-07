@@ -20,10 +20,9 @@ router.get('/getTweets', function(req, res, next) {
   //page,skip
   Tweet.getTweets(0,0).then(function(tweets){
       tweets.forEach(function(tweet){
-        tweet.active = true; // Set them to active
-        tweet.save();//save
+        tweet.active = true;
+        tweet.save();
       });
-      console.log('here are the tweeets bitch')
       res.send(tweets)
   }, next)
 
@@ -37,8 +36,8 @@ router.get('/getPage', function(req, res, next) {
 
 router.post('/postStatus', function (req, res, next) {
   //save req.body.status --> tweet schema
-  
-  twit.post('statuses/update', { status: req.body.status }, function(err, data, response) {
-      console.log('err', err);
-  });
+
+  // twit.post('statuses/update', { status: req.body.status }, function(err, data, response) {
+  //     console.log('err', err);
+  // });
 });

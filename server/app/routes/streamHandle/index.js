@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'lalalalallalalalal';
+      var keyword = 'walalallalallala';
 
       //create overview page for new keyword
       console.log('hihihi?')
@@ -31,7 +31,6 @@ process.nextTick(function() {
               keyword: keyword,
               createdAt: data.created_at.slice(0,19),
               active: false,
-              loading: false,
               text: data.text,
               response: {status: false}
           };
@@ -75,4 +74,3 @@ process.nextTick(function() {
       });
   });
 })
-          

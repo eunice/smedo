@@ -13,7 +13,6 @@ var schema = new mongoose.Schema({
     createdAt: String,
     timestamp: {type: Date, default: Date.now},
     active: Boolean,
-    loading: Boolean,
     text: String,
     sentiment: {
       label: {
@@ -45,20 +44,22 @@ schema.statics.getTweets = function(page,skip,cb){
 
 schema.statics.getSentimentScore = function(text){
   var deferred = Q.defer();
-  console.log('getting sentiment')
 
   alchemy.sentiment("text", text, {}, function(response) {
     var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0
     if(s) deferred.resolve(s)
     else deferred.reject('nonono')
+    return s;
   });
 
   return deferred.promise;
 };
 
-//use virtual?
-schema.statics.getSentimentLabel = function(s){
+schema.virtual('sentimentLabel').get(function(){
+  // console.log('hit thisssss virutal')
+  var s = this.sentiment.score;
   var l;
+
   if (s > 0.5 && s <= 1) l = "V.Positive"
   else if (s > 0 && s <= 0.5) l = "Positive"
   else if (s === 0) l = "Neutral"
@@ -66,14 +67,27 @@ schema.statics.getSentimentLabel = function(s){
   else if (s >= -1 && s <= -0.5) l = "V.Negative"
 
   return l;
-}
+});
+
+// schema.statics.getSentimentLabel = function(s){
+//   var l;
+//   if (s > 0.5 && s <= 1) l = "V.Positive"
+//   else if (s > 0 && s <= 0.5) l = "Positive"
+//   else if (s === 0) l = "Neutral"
+//   else if (s > -0.5 && s < 0) l = "Negative"
+//   else if (s >= -1 && s <= -0.5) l = "V.Negative"
+//
+//   return l;
+// }
 
 schema.pre('save', function(next){
   var self = this;
 
   Q(this.constructor.getSentimentScore(this.text)).then(function(score){
     self.sentiment.score = score;
-    self.sentiment.label = self.constructor.getSentimentLabel(score);
+    self.sentiment.label = self.sentimentLabel;
+    // console.log('presave!!!', self.sentimentLabel, score)
+    // self.constructor.getSentimentLabel(score);
     next();
   });
 
