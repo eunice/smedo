@@ -75,31 +75,4 @@ process.nextTick(function() {
       });
   });
 })
-          // if sentiment undefined:
-          // if (response["docSentiment"] === undefined) {
-          //   var sign = Math.floor(Math.random());
-          //   var score = Math.random();
-          //   score = parseFloat(score.toFixed(4));
-          //   if (sign === 0) score=-score;
-          //
-          //   if (score > 0) {
-          //     tweet.sentiment.type = 'positive';
-          //   }
-          //   else if (score === 0) {
-          //     tweet.sentiment.type = 'neutral';
-          //   }
-          //   else {
-          //     tweet.sentiment.type = 'negative';
-          //   }
-          //   tweet.sentiment.score = score;
-          // }
-          // else if (response["docSentiment"]["type"] === undefined){
-          //   tweet.sentiment.type = "neutral";
-          //   tweet.sentiment.score = 0;
-          // }
-          // else if (response["docSentiment"]["score"] === undefined){
-          //   tweet.sentiment.type = response["docSentiment"]["type"];
-          //   tweet.sentiment.score = 0;
-          // }
-          // else {
-          // }
+          

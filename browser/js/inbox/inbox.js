@@ -9,6 +9,7 @@ app.config(function ($stateProvider) {
 app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $state, $firebaseArray, $firebaseObject, $modal) {
     var ref = new Firebase('https://smedo-fs.firebaseio.com/response');
     var firebaseRes = $firebaseObject(ref);
+    $scope.firebaseRes = firebaseRes;
 
     TweetFactory.getTweets().then(function(tweets){
         $scope.oldTweets = tweets;
@@ -20,12 +21,12 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
 
     //every refresh, firebase response loading
     firebaseRes.$loaded().then(function(){
+        Object.keys(firebaseRes).forEach(function(id){
 
-        Object.keys(firebaseRes).forEach(function(res){
-          console.log('response la', res)
           for (var i=0; i < $scope.oldTweets.length; i++){
-            if ($scope.oldTweets[i]._id === res.twid){
-                $scope.oldTweets[i].loading = true;
+            if ($scope.oldTweets[i]._id === id){
+                if (firebaseRes[id]) $scope.oldTweets[i].loading = true;
+                $scope.oldTweets[i].response.responseText = firebaseRes[id];
             }
           }
         });
@@ -53,42 +54,21 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     $scope.showForm= function (index, tweet) {
         $scope.form[index] = true;
     }
-
-    $scope.checkToLoad = function() {
-
+    $scope.close = function(index, tweet) {
+        $scope.form[index] = false; //set showForm to false
     }
 
-    //during typing
-    //get el by twid -> set scope.tweet loading = true
-    //save tweet res in firebase-> tw_id
-    //bind scopeobj(twid)'s input ng-model to firebase(twid)
-
-    $scope.reply = function(text,id){
+    $scope.reply = function(text,tweet){
+      //save the text
       firebaseRes.$loaded().then(function(){
-        firebaseRes[id] = text;
+        firebaseRes[tweet._id] = text;
         firebaseRes.$save();
       })
     }
 
-    // if(tweet.response.responseText) tweet.loading = true;
-    // tweet.loading = false;
-    // response.$save(tweet)
-    //
-    // if (tweet.$id === mention.$id){
-    //   donaldTrump.forEach(function(tweet){ //HERE
-    //     mention.loading = false;
-    //   })
-    // }
-
-    $scope.close = function(index, mention) {
-
-      //save to db!!!!
-
-      $scope.form[index] = false; //set showForm to false
       // $scope.checkToLoad(mention);
       // var el = document.querySelector('#incomingTweet');
       // angular.element(el).css({"background-color": "white"});
-    }
 
     $scope.post = function(mention, index) {
       //after tweeting back
@@ -96,17 +76,6 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
 
       TweetFactory.post("@"+mention.user.screen_name + " " + mention.reply.text);
       $scope.arr[index] = false; //set showForm to false
-
-      tweetArch.$add(mention).then(function(ref) {})
-      console.log('tweetrt before',tweetRt.$keyAt(mention.$id))
-
-      donaldTrump.forEach(function(tweet, index){
-        // console.log('tweetRt tweet',tweet)
-        if (tweet.$id === mention.$id) {
-          tweetRt.$remove(tweet);
-        }
-
-      })
 
     }
 
