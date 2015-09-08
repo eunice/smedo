@@ -1,0 +1,35 @@
+<div class="row" id="inbox-label">
+
+  <div class="col-md-2"><img height="70px" src="../img/Twitter-Logo.png" />
+    <span class='stat'>{{ totalTweets }}</span>
+    <span style='display: block'>Tweets</span>
+  </div>
+
+  <div class="col-md-2"><img height="70px" src="../img/people.png" />
+    <span class='stat'>{{ uniqueUsers }}</span>
+    <span style='display: block'>Unique Users</span>
+  </div>
+
+  <div class="col-md-2"><img height="70px" src="../img/impressions.png" />
+    <span class='stat'>{{ totalImpressions }}</span>
+    <span style='display: block'>Impressions</span>
+  </div>
+
+  <div class="col-md-2"><img height="70px" src="../img/sentiment.png" />
+    <span class='stat'>{{ aveSentiments.toFixed(3) }}</span>
+    <span style='display: block'>Ave.Sentiments</span>
+  </div>
+
+  <div class="col-md-2"><img height="70px" src="../img/frequency.png" />
+    <span class='stat'>{{ overallTweetFrequency.toFixed(1) }}</span>
+    <span style='display: block'>Frequency(min)</span>
+  </div>
+
+  <div class="col-md-2"><img height="70px" src="../img/hashtags.png" />
+  <!-- </div> -->
+  <!-- <div class="col-md-1"> -->
+    <span class='stat'>{{ allHashtags }}</span>
+    <span style='display: block'>Hashtags</span>
+  </div>
+
+</div>

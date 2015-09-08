@@ -1,51 +1,7 @@
 
 <div class='stat' >#donaldtrump</div>
 
-<div class="row" id="inbox-label">
-
-  <div class="col-md-2"><img height="70px" src="../img/Twitter-Logo.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ totalTweets }}</span>
-    <span style='display: block'>Tweets</span>
-  </div>
-
-  <div class="col-md-2"><img height="70px" src="../img/people.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ uniqueUsers }}</span>
-    <span style='display: block'>Unique Users</span>
-  </div>
-
-  <div class="col-md-2"><img height="70px" src="../img/impressions.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ totalImpressions }}</span>
-    <span style='display: block'>Impressions</span>
-  </div>
-
-  <div class="col-md-2"><img height="70px" src="../img/sentiment.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ aveSentiments.toFixed(3) }}</span>
-    <span style='display: block'>Ave.Sentiments</span>
-  </div>
-
-  <div class="col-md-2"><img height="70px" src="../img/frequency.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ overallTweetFrequency.toFixed(1) }}</span>
-    <span style='display: block'>Frequency(min)</span>
-  </div>
-
-  <div class="col-md-2"><img height="70px" src="../img/hashtags.png" />
-  <!-- </div> -->
-  <!-- <div class="col-md-1"> -->
-    <span class='stat'>{{ allHashtags }}</span>
-    <span style='display: block'>Hashtags</span>
-  </div>
-
-</div>
+<overview></overview>
 
 <br>
 
@@ -61,84 +17,11 @@
 <div class='sub-title' id="inbox-label">Sentiment</div>
 <div class="ct-chart .ct-perfect-fifth" id="sentiments-plot2"></div>
 
-<div class='sub-title' id="inbox-label">Sentiment Distribution</div>
+<sentiment-pie></sentiment-pie>
 
-<!-- <div class="row"> -->
-<!-- <div class="col-md-4"> -->
-  <!-- <div id='donut-label'>
-    <p>Positive: {{ sentimentDonutSeries[0] / totalTweets *100 }}%</p>
-    <p>Very Positive: {{ sentimentDonutSeries[1] / totalTweets *100 }}%</p>
-    <p>Negative: {{ sentimentDonutSeries[2] / totalTweets *100}}%</p>
-    <p>Very Negative: {{ sentimentDonutSeries[3] / totalTweets *100}}%</p>
-    <p>Neutral: {{ sentimentDonutSeries[4] / totalTweets *100}}%</p>
-  </div> -->
-<!-- </div> -->
-<!-- <div class="col-md-6"> -->
-<div class="row">
-<div class="ct-chart-donut " id="sentiment-donut"></div>
-<img id='table-chart' src='../img/table.png' />
-</div>
-<!-- <div> -->
-<!-- </div> -->
+<topten-users></topten-users>
 
-<div class='sub-title' id="inbox-label">Top 10 Users tweeted</div>
-<div class="container-fluid">
-  <div class="row" id="inbox-label">
-    <div class="col-md-1">Rank</div>
-    <div class="col-md-1"></div>
-    <div class="col-md-2">Username</div>
-    <div class="col-md-1">Followers</div>
-    <div class="col-md-1"># of tweets</div>
-    <div class="col-md-2">Sentiment</div>
-    <div class="col-md-4"></div>
-
-  </div>
-
-  <div class="row" ng-repeat="user in topUsers">
-    <div class="col-md-1">{{ $index + 1 }}</div>
-    <div class="col-md-1"><img class="img-circle" src="{{user.img}}"></div>
-    <div class="col-md-2"><span id="screen-name">{{ user.username }}</span></div>
-    <div class="col-md-1" id="score">{{ user.followers }}</div>
-    <div class="col-md-1" id="score">{{ user.tweets }}</div>
-    <!-- sentiment circle -->
-    <div class="col-md-2">
-      <p class="sentiment-label">
-              {{ user.aveSentiments }}</p>
-    </div>
-
-    <div class="col-md-4">
-    <div id="circle" ng-class="{'red': user.aveSentiments < -0.5 ,
-               'orange': user.aveSentiments < 0 && user.aveSentiments >= -0.5,
-               'yellow': user.aveSentiments === 0,
-               'lgreen': user.aveSentiments < 0.5 && user.aveSentiments > 0,
-               'green': user.aveSentiments >= 0.5}"></div>
-    </div>
-
-    <md-divider md-inset ></md-divider>
-  </div>
-</div>
-
-<div class='sub-title' id="inbox-label">Top 10 hashtags</div>
-<div class="container-fluid" id="hashtag-container">
-  <div class="row" id="inbox-label">
-    <div class="col-md-1">Rank</div>
-    <div class="col-md-4">Hashtag</div>
-    <div class="col-md-2">Reach</div>
-    <div class="col-md-3"># of tweets</div>
-    <!-- <div class="col-md-4"></div> -->
-  </div>
-
-  <div class="row" ng-repeat="hashtag in topHashtags">
-    <div class="col-md-1">{{ $index + 1 }}</div>
-    <div class="col-md-4"><span id="screen-name">#{{ hashtag.text }}</span></div>
-    <div class="col-md-2" id="score">{{ hashtag.reach }}</div>
-    <div class="col-md-3" id="score">{{ hashtag.count }}</div>
-    <!-- <div class="col-md-1" id="score">{{ user.tweets }}</div> -->
-
-    <md-divider md-inset ></md-divider>
-  </div>
-</div>
-<div class="ct-chart .ct-perfect-fifth" id="tophashtag-reach-graph"></div>
+<topten-hashtag></topten-hashtag>
 
 <div class='sub-title' id="inbox-label">Word Cloud</div>
 <div id="word-cloud"></div>

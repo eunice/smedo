@@ -1,0 +1,36 @@
+<div class='sub-title' id="inbox-label">Top 10 Users tweeted</div>
+<div class="container-fluid">
+  <div class="row" id="inbox-label">
+    <div class="col-md-1">Rank</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2">Username</div>
+    <div class="col-md-1">Followers</div>
+    <div class="col-md-1"># of tweets</div>
+    <div class="col-md-2">Sentiment</div>
+    <div class="col-md-4"></div>
+
+  </div>
+
+  <div class="row" ng-repeat="user in topUsers">
+    <div class="col-md-1">{{ $index + 1 }}</div>
+    <div class="col-md-1"><img class="img-circle" src="{{user.img}}"></div>
+    <div class="col-md-2"><span id="screen-name">{{ user.username }}</span></div>
+    <div class="col-md-1" id="score">{{ user.followers }}</div>
+    <div class="col-md-1" id="score">{{ user.tweets }}</div>
+    <!-- sentiment circle -->
+    <div class="col-md-2">
+      <p class="sentiment-label">
+              {{ user.aveSentiments }}</p>
+    </div>
+
+    <div class="col-md-4">
+    <div id="circle" ng-class="{'red': user.aveSentiments < -0.5 ,
+               'orange': user.aveSentiments < 0 && user.aveSentiments >= -0.5,
+               'yellow': user.aveSentiments === 0,
+               'lgreen': user.aveSentiments < 0.5 && user.aveSentiments > 0,
+               'green': user.aveSentiments >= 0.5}"></div>
+    </div>
+
+    <md-divider md-inset ></md-divider>
+  </div>
+</div>

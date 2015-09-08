@@ -46,8 +46,12 @@ schema.statics.getSentimentScore = function(text){
   var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
+    console.log('come here?')
     var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0
-    if(s) deferred.resolve(s)
+    if(s) {
+      console.log('resolved?')
+      deferred.resolve(s)
+    }
     else deferred.reject('nonono')
     return s;
   });
@@ -73,6 +77,7 @@ schema.pre('save', function(next){
   var self = this;
 
   Q(this.constructor.getSentimentScore(this.text)).then(function(score){
+    console.log('are you here', score)
     self.sentiment.score = score;
     self.sentiment.label = self.sentimentLabel;
     next();

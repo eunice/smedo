@@ -20,7 +20,7 @@ app.controller('InboxCtrl', function ($scope, Socket, TweetFactory, $timeout, $s
     })
 
     Socket.on('newTweet', function(data) {
-
+      
       $scope.updatedTweets.unshift(data);
       $scope.count += 1; //update noti-bar
       $scope.skip += 1;

@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'walalallalallala';
+      var keyword = 'llalalalalala';
 
       //create overview page for new keyword
       console.log('hihihi?')
@@ -25,7 +25,7 @@ process.nextTick(function() {
       var stream = twit.stream('statuses/filter', { track: keyword});
       var previous = "";
       stream.on('tweet', function (data) {
-
+          console.log('anyone?')
           var t = {
               twid: data.id_str,
               keyword: keyword,

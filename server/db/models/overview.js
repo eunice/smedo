@@ -10,13 +10,13 @@ var schema = new mongoose.Schema({
     numUniqueUsers: Number,
     totalSentiment: Number,
     aveSentiment: Number,
-    otherHashtags: {String},
+    // otherHashtags: {String},
     hitLimit: Boolean
 });
 
 //create overview
 var createOverview = function (keyword){
-  
+
 }
 
 // var updateOtherHashtags = function(text,keyword){

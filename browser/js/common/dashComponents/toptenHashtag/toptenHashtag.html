@@ -1,0 +1,21 @@
+<div class='sub-title' id="inbox-label">Top 10 hashtags</div>
+<div class="container-fluid" id="hashtag-container">
+  <div class="row" id="inbox-label">
+    <div class="col-md-1">Rank</div>
+    <div class="col-md-4">Hashtag</div>
+    <div class="col-md-2">Reach</div>
+    <div class="col-md-3"># of tweets</div>
+    <!-- <div class="col-md-4"></div> -->
+  </div>
+
+  <div class="row" ng-repeat="hashtag in topHashtags">
+    <div class="col-md-1">{{ $index + 1 }}</div>
+    <div class="col-md-4"><span id="screen-name">#{{ hashtag.text }}</span></div>
+    <div class="col-md-2" id="score">{{ hashtag.reach }}</div>
+    <div class="col-md-3" id="score">{{ hashtag.count }}</div>
+    <!-- <div class="col-md-1" id="score">{{ user.tweets }}</div> -->
+
+    <md-divider md-inset ></md-divider>
+  </div>
+</div>
+<div class="ct-chart .ct-perfect-fifth" id="tophashtag-reach-graph"></div>

@@ -11,13 +11,10 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
   //analytics firebase
   var analytics = new Firebase('https://smedo-fs.firebaseio.com/analytics');
   var dashboard = $firebaseObject(analytics);
-
   var donaldTrumpRoom = new Firebase('https://smedo-fs.firebaseio.com/donaldTrump');
-  var donaldTrump = $firebaseArray(donaldTrumpRoom);
-
+  var donaldTrump = $firebaseArray(donaldTrumpRoom)
   var testRoom = new Firebase('https://smedo-fs.firebaseio.com/test');
   var test = $firebaseArray(testRoom);
-
   var testAnalytics = new Firebase('https://smedo-fs.firebaseio.com/testanalytics');
   var obj = $firebaseObject(testAnalytics);
 
@@ -328,7 +325,9 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
         new Chartist.Line('#sentiments-plot2', sentmentdata2, options2); //, responsiveOptions
 
         //DONUT GRAPH (SENTIMENTS)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
         var sentimentDonutLabel = Object.keys(obj.sentimentDonut);
+
         $scope.sentimentDonutSeries = [];
         console.log('lllllll',$scope.sentimentDonutSeries)
         for (var i=0; i< sentimentDonutLabel.length; i++){
@@ -414,7 +413,7 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
                     return 0;
                   })
 
-                  //pop
+                  // pop
                   topUsers.pop();
               }
 
