@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var Tweet = mongoose.model('Tweet');
 var TwitterUser = mongoose.model('TwitterUser');
-var Overview = mongoose.model('Overview');
+var Stats = mongoose.model('Stats');
 
 module.exports = router;
 
