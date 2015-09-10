@@ -27,6 +27,16 @@ var schema = new mongoose.Schema({
     }
 });
 
+//time interval
+  //search keyword + get all tweets
+  //get ascending order
+  //get timestamp (every 5 min) = 300000/ms
+  //until the next 300,000/ms ->
+    //sum all impressions
+    //
+    //create multi-dimensional array
+
+
 schema.statics.getTweetById = function(id){
   return this.findOne({_id: id}).populate('twuser').exec()
 }
@@ -85,7 +95,7 @@ schema.pre('save', function(next){
 
 })
 
-//THIS DOESNT SAVE PROPERLY
+//SAVE PROPERLY
 schema.method('updateResponse', function (status) {
     this.response.status = true;
     this.response.responseText.push(status);

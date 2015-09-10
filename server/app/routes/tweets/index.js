@@ -36,6 +36,7 @@ router.get('/getPage', function(req, res, next) {
 router.post('/postStatus', function (req, res, next) {
     //?????????
     Tweet.getTweetById(req.body.id).then(function(tweet){
+      console.log('tweet twid', tweet.twid)
       tweet.updateResponse(req.body.status);
     },next)
 

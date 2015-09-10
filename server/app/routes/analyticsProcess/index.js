@@ -11,7 +11,11 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
 
-
+    // socket.on('newTweet', function(data){
+    //     console.log('hey i receive it too', data)
+    //
+    //
+    // });
 
   });
 });

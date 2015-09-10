@@ -14,7 +14,11 @@ var schema = new mongoose.Schema({
     friends: Number,
     statuses: Number,
     description: String,
-    tweets: Number, //need to differentiate the hashtags
+    //haven't updated below!!!
+    tweets: [{
+      keyword: String,
+      count: Number
+    }],
     sentimentSum: Number
 });
 

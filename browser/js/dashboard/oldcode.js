@@ -1,22 +1,4 @@
-//loading the object
-  // obj.$loaded().then(function(data){
-  //
-  //   if (data.timeInterval === undefined){
-  //
-  //     //analytics firebase
-  //       obj.timeInterval = {};
-  //       obj.totalTweets = 0;
-  //       obj.overallTweetFrequency = 0;
-  //       obj.totalImpressions = 0;
-  //       obj.users = {}; //non-unique
-  //       obj.uniqueUsers = 0;
-  //       obj.totalSentiments = 0;
-  //       obj.aveSentiments = 0;
-  //       obj.sentimentDonut = {green: 0, blue: 0, yellow: 0, purple: 0, red: 0};
-  //       obj.hashtags = {};
-  //       obj.$save();
-  //   }
-  // })
+
 
   //all the logic for TEST ANALYTICS (COMMENTED)
     // donaldTrump.$loaded().then(function(tweets){
@@ -100,19 +82,7 @@
     //             //
     //             // })
     //
-    //             // sentimentDonut
-    //             // {green: 0, blue: 0, yellow: 0, purple: 0, red: 0}
-    //             if (s > 0.5 && s <= 1){
-    //               obj.sentimentDonut.green++
-    //             } else if (s > 0 && s <= 0.5) {
-    //               obj.sentimentDonut.blue++
-    //             } else if (s === 0) {
-    //               obj.sentimentDonut.yellow++
-    //             } else if (s > -0.5 && s < 0) {
-    //               obj.sentimentDonut.purple++
-    //             } else if (s <= -0.5) {
-    //               obj.sentimentDonut.red++
-    //             }
+    //
     //
     //
     //             // aveSentiment per time interval
