@@ -11,13 +11,8 @@ var schema = new mongoose.Schema({
     totalSentiment: Number,
     aveSentiment: Number,
     // otherHashtags: {String},
-    hitLimit: Boolean
 });
 
-//create overview
-var createOverview = function (keyword){
-
-}
 
 // var updateOtherHashtags = function(text,keyword){
 //     //add to overview
@@ -62,4 +57,4 @@ var createOverview = function (keyword){
 
 //check if hit limit
 
-mongoose.model('Overview', schema);
+mongoose.model('Stats', schema);

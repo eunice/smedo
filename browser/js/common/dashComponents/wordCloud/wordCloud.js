@@ -3,17 +3,16 @@ app.directive('wordCloud', function ($rootScope, $state) {
     return {
         restrict: 'E',
         scope: {
-          hashtag: '='
+          hashtag: '@'
         },
-        
         templateUrl: 'js/common/dashComponents/wordCloud/wordCloud.html',
         link: function(scope){
+                console.log('running word cloud?',scope.hashtag);
 
               var frequency_list = [];
 
               for (var h in scope.hashtag) {
                 frequency_list.push({"text": h, "size": parseInt(scope.hashtag[h].count)})
-                console.log(scope.hashtag[h].count);
               };
 
                 var color = d3.scale.linear()

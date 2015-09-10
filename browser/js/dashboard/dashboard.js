@@ -19,7 +19,7 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
   var obj = $firebaseObject(testAnalytics);
 
     obj.$loaded().then(function(data){
-
+        console.log('heyy', data)
         //STATIC numbers
         $scope.totalImpressions = data.totalImpressions;
         $scope.totalTweets = data.totalTweets;
@@ -284,7 +284,7 @@ app.controller('DashCtrl', function ($scope, Socket, TweetFactory, $timeout, $st
 
         //WORD CLOUDD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         $scope.hashtags = obj.hashtags;
-        
+
 
     })//....dataVisblock(objload)
 

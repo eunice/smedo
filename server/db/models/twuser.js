@@ -13,7 +13,9 @@ var schema = new mongoose.Schema({
     followers: Number,
     friends: Number,
     statuses: Number,
-    description: String
+    description: String,
+    tweets: Number, //need to differentiate the hashtags
+    sentimentSum: Number
 });
 
 schema.statics.checkAndCreate = function(u, keyword, cb){
@@ -22,7 +24,7 @@ schema.statics.checkAndCreate = function(u, keyword, cb){
   return this.findOne({userid: u.userid}).exec().then(function(user){
     if (!user){
 
-      mongoose.model('Overview').findOne({keyword: keyword}).exec().then(function(file){
+      mongoose.model('Stats').findOne({keyword: keyword}).exec().then(function(file){
         // console.log('i am incre unique users!!')
         file.numUniqueUsers++
         file.save()
