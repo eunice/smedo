@@ -56,7 +56,7 @@ schema.statics.getSentimentScore = function(text){
   var deferred = Q.defer();
 
   alchemy.sentiment("text", text, {}, function(response) {
-    console.log('come here?')
+    // console.log('come here?')
     var s = response["docSentiment"] ? response["docSentiment"]["score"] : 0
     if(s) {
       console.log('resolved?')

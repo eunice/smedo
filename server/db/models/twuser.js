@@ -14,32 +14,49 @@ var schema = new mongoose.Schema({
     friends: Number,
     statuses: Number,
     description: String,
-    //haven't updated below!!!
+    //dynamic data:
     tweets: [{
       keyword: String,
       count: Number
     }],
-    sentimentSum: Number
+    sentimentSum: Number,
+    sentimentAve: Number
 });
 
-schema.statics.checkAndCreate = function(u, keyword, cb){
+schema.statics.checkAndCreate = function(u, keyword, sentiment, cb){
   // console.log('user checking and creating')
   var self = this;
   return this.findOne({userid: u.userid}).exec().then(function(user){
     if (!user){
-
-      mongoose.model('Stats').findOne({keyword: keyword}).exec().then(function(file){
-        // console.log('i am incre unique users!!')
-        file.numUniqueUsers++
-        file.save()
-      })
-
+      //updating dynamic data
+      u.tweets = [{keyword: keyword, count: 1}];
+      u.sentimentSum = sentiment;
+      u.sentimentAve = sentiment;
+      //update unique user
+      console.log('is unqiue user updated?')
+      mongoose.model('Stats').updateUniqueUser(keyword);
       return self.create(u);
 
     } else {
-      // console.log('user checking and creating222')
-      user = u;
-      return user.save(); //NEED TO TEST THIS
+      //update existing user
+      //update dynamic tweets count portion
+      for (var i=0; i< user.tweets.length; i++) {
+        if (user.tweets[i].keyword === keyword) {
+          user.tweets[i].count++;
+        } else {
+          user.tweets.push({keyword: keyword, count: 1});
+        }
+      };
+      //update dynamic sentiment portion
+      var count = 0;
+      for (var i=0; i< user.tweets.length; i++) {
+        count += user.tweets[i].count;
+      };
+      user.sentimentSum += sentiment;
+      user.sentimentAve = user.sentimentSum / count;
+      console.log('is existed user updated?')
+      return user.save();
+
     }
   },cb);
 };

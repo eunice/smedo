@@ -16,7 +16,7 @@ process.nextTick(function() {
   var io = require('../../../io')();
   io.on('connection', function (socket) {
       //add keyword
-      var keyword = 'alalalaala';
+      var keyword = 'coffee';
 
       //create overview page for new keyword
       console.log('hihihi?')
@@ -53,20 +53,31 @@ process.nextTick(function() {
           if (previous !== data.text) {
                 previous = data.text;
 
-                //adding tweet to db + socket emit
-                TwitterUser.checkAndCreate(u,keyword)
-                  .then(function(user){
-                      t.twuser = user._id;
-                      return Tweet.create(t)
-                  })
-                  .then(function(tweet){
+                //adding tweet to db
+                Tweet.create(t)
+                .then(function(tweet){
+
+                    //creating twitter user
+                    return TwitterUser.checkAndCreate(u, keyword, tweet.sentiment.score)
+                      .then(function(user){
+                          console.log('hello new user', user)
+                          tweet.twuser = user._id;
+                          tweet.save();
+                          return tweet;
+                      });
+
+                })
+                .then(function(tweet){
                       return Tweet.getTweetById(tweet._id)
                   })
-                  .then(function(tweet){
-                      console.log('this is what TWEET created')
-                      socket.emit('newTweet',tweet)
+                .then(function(tweet){
+                    console.log('this is what TWEET created',tweet)
+                    //socket emit
+                    socket.emit('newTweet',tweet);
+                    //stats
 
-                  })
+
+                })
 
           }
 

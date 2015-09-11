@@ -3,11 +3,11 @@ var mongoose = require('mongoose');
 var Q = require('q');
 
 var schema = new mongoose.Schema({
-    keyword: String,
-    numTweets: Number,
-    frequencyPerMin: Number, //need to get date first
-    numImpressions: Number,
-    numUniqueUsers: Number,
+    keyword: String, //*
+    numTweets: Number, //*
+    frequencyPerMin: Number,
+    numImpressions: Number, //*
+    numUniqueUsers: Number, //*
     users: [{
       type: mongoose.Schema.Types.ObjectId, ref: 'TwitterUser'
     }],
@@ -27,30 +27,43 @@ var schema = new mongoose.Schema({
 
 schema.statics.checkAndCreate = function(keyword){
   var self = this;
-  return this.findOne({keyword: keyword}).exec().then(function(stats){
+  return this.findOne({keyword: keyword}).exec().then(function(file){
     //if keyword instance !exist > create
-    if (!stats) {
+    if (!file) {
       return self.create({
-        keyword: keyword,
+        keyword: keyword
       });
     }
-
   })
 };
 
-schema.statics.update = function(keyword, tweet, twuser) {
-  return this.findOne({keyword: keyword}).exec().then(function(stats){
-    //update Tweets
-    stats.numTweets = stats.numTweets || 1;
-    stats.numTweets++;
-    //update Impressions
-    stats.numImpressions = stats.numImpressions || twuser.followers;
-    stats.numImpressions += twuser.followers;
-    //update Users
-    
-    //update Sentiments
+schema.statics.updateUniqueUser = function(keyword) {
+  this.findOne({keyword: keyword}).exec().then(function(file){
+    console.log('i am incre unique users!!')
+    file.numUniqueUsers = file.numUniqueUsers || 1;
+    file.numUniqueUsers++
+    file.save()
+  })
+}
 
-    stats.save();
+schema.statics.update = function(keyword, tweet, twuser) {
+  return this.findOne({keyword: keyword}).exec().then(function(file){
+    //update Tweets
+    file.numTweets = file.numTweets || 1;
+    file.numTweets++;
+    //update Impressions
+    file.numImpressions = file.numImpressions || twuser.followers;
+    file.numImpressions += twuser.followers;
+    //update Users (updated directly on user model)
+
+    //update Sentiments
+    file.sumSentiments =  file.sumSentiments || tweet.sentiment.score;
+    file.sumSentiments += tweet.sentiment.score;
+    file.aveSentiments = file.sumSentiments / file.numTweets;
+
+    //update hashtag
+    
+    file.save();
   })
 }
 
@@ -79,7 +92,6 @@ schema.statics.getSentiments = function(score){
 //get hashtags
   //check other hashtag schema
   //if unique, create other hashtag schema instance
-
   //if not, update
 
 mongoose.model('Stats', schema);
