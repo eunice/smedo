@@ -8,12 +8,12 @@ var schema = new mongoose.Schema({
     frequencyPerMin: Number,
     numImpressions: Number, //*
     numUniqueUsers: Number, //*
-    users: [{
-      type: mongoose.Schema.Types.ObjectId, ref: 'TwitterUser'
-    }],
-    sumSentiments: Number,
-    aveSentiments: Number,
-    sentiments: {
+    // users: [{
+    //   type: mongoose.Schema.Types.ObjectId, ref: 'TwitterUser'
+    // }],
+    sumSentiments: Number, //*
+    aveSentiments: Number, //*
+    sentiments: { //*
       vpositive: Number,
       positive: Number,
       neutral: Number,
@@ -40,33 +40,11 @@ schema.statics.checkAndCreate = function(keyword){
 schema.statics.updateUniqueUser = function(keyword) {
   this.findOne({keyword: keyword}).exec().then(function(file){
     console.log('i am incre unique users!!')
-    file.numUniqueUsers = file.numUniqueUsers || 1;
+    file.numUniqueUsers = file.numUniqueUsers || 0;
     file.numUniqueUsers++
     file.save()
   })
 }
-
-schema.statics.update = function(keyword, tweet, twuser) {
-  return this.findOne({keyword: keyword}).exec().then(function(file){
-    //update Tweets
-    file.numTweets = file.numTweets || 1;
-    file.numTweets++;
-    //update Impressions
-    file.numImpressions = file.numImpressions || twuser.followers;
-    file.numImpressions += twuser.followers;
-    //update Users (updated directly on user model)
-
-    //update Sentiments
-    file.sumSentiments =  file.sumSentiments || tweet.sentiment.score;
-    file.sumSentiments += tweet.sentiment.score;
-    file.aveSentiments = file.sumSentiments / file.numTweets;
-
-    //update hashtag
-    
-    file.save();
-  })
-}
-
 schema.statics.getSentiments = function(score){
   var l;
 
@@ -79,19 +57,48 @@ schema.statics.getSentiments = function(score){
   return l;
 }
 
-//get tweet
-  //numTweets ++
-  //numImpressions += twuser's followers
-  //sentimentSum += sentiment score
-  //virtual : sentiment ave = sum / numTweets
-  //if V.positive -> sentiment.vpositive ++
+schema.statics.update = function(keyword, tweet, twuser) {
+  var self = this;
+  return this.findOne({keyword: keyword}).exec().then(function(file){
+    //update Tweets
+    file.numTweets = file.numTweets || 0;
+    file.numTweets++;
+    //update Impressions
+    file.numImpressions = file.numImpressions || twuser.followers;
+    file.numImpressions += twuser.followers;
+    //update Users (updated directly on user model)
+
+    //update Sentiments
+    file.sumSentiments =  file.sumSentiments || tweet.sentiment.score;
+    file.sumSentiments += tweet.sentiment.score;
+    file.aveSentiments = file.sumSentiments / file.numTweets;
+    var label = self.constructor.getSentiments(tweet.sentiment.score);
+    file.sentiments[label] = file.sentiments[label] || 0;
+    file.sentiments[label]++;
+
+    //update hashtag
+
+    file.save();
+    return file; // check
+  });
+}
+
+schema.statics.getHashtags = function(text){
+  // text.split(" ").forEach(function(word){
+  //         word = word.toLowerCase();
+  //         if (word.indexOf(keyword) === -1) {
+  //             var initial = word.split("").shift();
+  //             if (initial === "#") {
+  //               var re = /([a-z0-9])+/g
+  //               word = word.match(re)[0];
+}
+
+// updateOtherHashtags 
+
+
 
 //get user
   //if unique, uniqueUser++
 
-//get hashtags
-  //check other hashtag schema
-  //if unique, create other hashtag schema instance
-  //if not, update
 
 mongoose.model('Stats', schema);

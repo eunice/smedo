@@ -17,19 +17,20 @@ var schema = new mongoose.Schema({
     }
 });
 
-// var updateOtherHashtags = function(text,keyword){
-//     //add to overview
-//     text.split(" ").forEach(function(word){
-//         word = word.toLowerCase();
-//         if (word.indexOf(keyword) === -1) {
-//             var initial = word.split("").shift();
-//             if (initial === "#") {
-//               var re = /([a-z0-9])+/g
-//               word = word.match(re)[0];
-//               // console.log(word);
-//               Overview.findOne({keyword: keyword}).exec().then(function(file){
-//                 file.otherHashtags =
-//               });
+schema.statics.sortExistedHashtags = function(keyword, hashArr) {
+  //get all hashtags with keyword
+  this.find({keyword: keyword}).exec().then(function(hashtags){
+    for (var i=0; i< hashArr.length; i++){
+      //hashArr -> [existed hash] + [new hash]
+
+      // if (hashArr[i])
+    }
+  });
+}
+
+schema.statics.updateExisted = function(tweet, twuser){}
+
+schema.statics.createNew = function(tweet, twuser){}
 //
 //               obj.hashtags[word] = obj.hashtags[word] || {};
 //               obj.hashtags[word].count = obj.hashtags[word].count || 0;

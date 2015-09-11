@@ -55,8 +55,8 @@ schema.statics.checkAndCreate = function(u, keyword, sentiment, cb){
       user.sentimentSum += sentiment;
       user.sentimentAve = user.sentimentSum / count;
       console.log('is existed user updated?')
-      return user.save();
-
+      user.save();
+      return user; //check
     }
   },cb);
 };
