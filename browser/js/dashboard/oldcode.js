@@ -1,5 +1,14 @@
-
-
+//analytics firebase
+// var analytics = new Firebase('https://smedo-fs.firebaseio.com/analytics');
+// var dashboard = $firebaseObject(analytics);
+// var donaldTrumpRoom = new Firebase('https://smedo-fs.firebaseio.com/donaldTrump');
+// var donaldTrump = $firebaseArray(donaldTrumpRoom)
+// var testRoom = new Firebase('https://smedo-fs.firebaseio.com/test');
+// var test = $firebaseArray(testRoom);
+// var testAnalytics = new Firebase('https://smedo-fs.firebaseio.com/testanalytics');
+// var obj = $firebaseObject(testAnalytics);
+//
+//
   //all the logic for TEST ANALYTICS (COMMENTED)
     // donaldTrump.$loaded().then(function(tweets){
     //

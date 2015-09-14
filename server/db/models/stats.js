@@ -19,10 +19,10 @@ var schema = new mongoose.Schema({
       neutral: Number,
       negative: Number,
       vnegative: Number
-    },
-    hashtags: [{
-      type: mongoose.Schema.Types.ObjectId, ref: 'OtherHashtags'
-    }]
+    }
+    // hashtags: [{
+    //   type: mongoose.Schema.Types.ObjectId, ref: 'OtherHashtags'
+    // }]
 });
 
 schema.statics.checkAndCreate = function(keyword){
@@ -37,6 +37,7 @@ schema.statics.checkAndCreate = function(keyword){
   })
 };
 
+//update Users (updated directly on user model)
 schema.statics.updateUniqueUser = function(keyword) {
   this.findOne({keyword: keyword}).exec().then(function(file){
     console.log('i am incre unique users!!')
@@ -66,7 +67,6 @@ schema.statics.update = function(keyword, tweet, twuser) {
     //update Impressions
     file.numImpressions = file.numImpressions || twuser.followers;
     file.numImpressions += twuser.followers;
-    //update Users (updated directly on user model)
 
     //update Sentiments
     file.sumSentiments =  file.sumSentiments || tweet.sentiment.score;
@@ -77,24 +77,30 @@ schema.statics.update = function(keyword, tweet, twuser) {
     file.sentiments[label]++;
 
     //update hashtag
+    var otherHashtags = self.constructor.getHashtags(keyword,tweet.text);
+    mongoose.model('otherHashtags').updateAll(keyword,otherHashtags,tweet,twuser)
+    .then(function(){
+      console.log('updated other hashtags')
+    })
 
     file.save();
     return file; // check
   });
 }
 
-schema.statics.getHashtags = function(text){
-  // text.split(" ").forEach(function(word){
-  //         word = word.toLowerCase();
-  //         if (word.indexOf(keyword) === -1) {
-  //             var initial = word.split("").shift();
-  //             if (initial === "#") {
-  //               var re = /([a-z0-9])+/g
-  //               word = word.match(re)[0];
+schema.statics.getHashtags = function(keyword,text){
+  text.split(" ").forEach(function(word){
+      word = word.toLowerCase();
+      if (word.indexOf(keyword) === -1) {
+          var initial = word.split("").shift();
+          if (initial === "#") {
+            var re = /([a-z0-9])+/g
+            word = word.match(re)[0];
+          }
+      }
+  };
+
 }
-
-// updateOtherHashtags 
-
 
 
 //get user

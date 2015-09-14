@@ -19,7 +19,9 @@ process.nextTick(function() {
       var keyword = 'coffee';
 
       //create overview page for new keyword
-      console.log('hihihi?')
+      Stats.checkAndCreate(keyword).then(function(file){
+        console.log('hi stats', file)
+      })
 
       //stream tweet
       var stream = twit.stream('statuses/filter', { track: keyword});

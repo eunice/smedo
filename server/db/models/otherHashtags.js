@@ -17,9 +17,13 @@ var schema = new mongoose.Schema({
     }
 });
 
+schema.statics.updateAll = function(keyword,hashArr,tweet,twuser) {
+
+}
+
 schema.statics.sortExistedHashtags = function(keyword, hashArr) {
   //get all hashtags with keyword
-  this.find({keyword: keyword}).exec().then(function(hashtags){
+  this.find({keyword: keyword}).exec().then(function(existedHash){
     for (var i=0; i< hashArr.length; i++){
       //hashArr -> [existed hash] + [new hash]
 
@@ -28,11 +32,14 @@ schema.statics.sortExistedHashtags = function(keyword, hashArr) {
   });
 }
 
-schema.statics.updateExisted = function(tweet, twuser){}
+schema.statics.updateExisted = function(existH, tweet, twuser){
 
-schema.statics.createNew = function(tweet, twuser){}
-//
-//               obj.hashtags[word] = obj.hashtags[word] || {};
+}
+
+schema.statics.createNew = function(newH, tweet, twuser){
+
+}
+
 //               obj.hashtags[word].count = obj.hashtags[word].count || 0;
 //               obj.hashtags[word].count++
 //               obj.hashtags[word].totalSentiment = obj.hashtags[word].totalSentiment || 0;
